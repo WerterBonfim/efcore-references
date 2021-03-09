@@ -1,0 +1,9 @@
+{
+    "git.enabled": true,
+    "files.exclude": {
+        
+        ".vscode": true,
+        ".gitignore": true,
+        "src/Curso/obj": true
+    }
+}
