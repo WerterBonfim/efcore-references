@@ -4,6 +4,7 @@
         
         ".vscode": true,
         ".gitignore": true,
-        "src/Curso/obj": true
+        "../../src/Curso/obj": true,
+        "../src/Curso/bin": true
     }
 }
