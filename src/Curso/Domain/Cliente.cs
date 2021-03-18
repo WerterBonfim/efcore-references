@@ -17,6 +17,6 @@ namespace CursoEFCore.Domain {
         public string  Cidade { get; set; }
 
         // For create an example of rollback
-        public string Email { get; set; }
+        //public string Email { get; set; }
     }
 }
