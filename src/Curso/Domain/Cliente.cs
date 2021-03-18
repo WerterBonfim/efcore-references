@@ -15,5 +15,8 @@ namespace CursoEFCore.Domain {
         public string CEP { get; set; }
         public string Estado { get; set; }
         public string  Cidade { get; set; }
+
+        // For create an example of rollback
+        public string Email { get; set; }
     }
 }
