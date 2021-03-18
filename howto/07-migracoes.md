@@ -93,5 +93,7 @@ dotnet ef migrations script \
 # 8 - Rollback Migrations
 
 ```bash
-    dotnet ef migration add AdicionarEmail -p ./Curso/CursoEFCore.csproj
+
+dotnet ef migrations add AdicionarEmail -p ./Curso/CursoEFCore.csproj
+
 ```
