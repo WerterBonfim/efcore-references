@@ -26,6 +26,11 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 ## [Section 7 - Operations][operations]
 
+* Insert
+* Read
+* Update
+* Delete
+
 
 
 [dev.io]:https://desenvolvedor.io/

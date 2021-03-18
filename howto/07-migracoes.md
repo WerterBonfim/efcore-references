@@ -1,28 +1,3 @@
-### 1 - Dependencies
-
-Microsoft.EntityFrameworkCore.Design
-
-Microsoft.EntityFrameworkCore.Tools -> To use in console
-
-To install globaly
-
-```bash
-dotnet tool install --global dotnet-ef --version 5.0.4
-```
-
-run first migraton
-
-```bash
-dotnet ef migrations add PrimeiraMigracao \ 
-    # project
-	-p ./Curso/CursoEFCore.csproj \ 
-	# default is Migrations 
-	-o PastaDeMigracoes \ 
-	# For define context
-	-c ApplicationContext 
-	
-```
-
 # 6 - Applaying Migrations
 
 Has tree ways to apply migrations:
@@ -95,5 +70,31 @@ dotnet ef migrations script \
 ```bash
 
 dotnet ef migrations add AdicionarEmail -p ./Curso/CursoEFCore.csproj
+ 
+# commit changes
+dotnet ef database update -p ./Curso/CursoEFCore.csproj
+
+# rollback
+dotnet ef database update \ 
+    # Name of migrations target
+    PrimeiraMigracao \ 
+    -p ./Curso/CursoEFCore.csproj
+
+# Output
+# Reverting migration '20210317235306_AdicionarEmail'.
+
+# removing migratons
+dotnet ef migrations remove -p ./Curso/CursoEFCore.csproj
+
+```
+
+command migrations remove deletes the migrations not committed in the database
+
+
+# 9 - Pending Migrations
+
+```c#
+// To verify if has:
+var exist = db.Database.GetPendingMigrations().Any();
 
 ```
