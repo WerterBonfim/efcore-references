@@ -47,7 +47,7 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 [dev.io]:https://desenvolvedor.io/
 [rafael]:https://github.com/ralmsdeveloper
 
-[level01.migrations]:howto/01-introducton/07-migracoes.md
-[level01.operations]:howto/01-introducton/08-operations.md
+[level01.migrations]:howto/01-introduction/06-migracoes.md
+[level01.operations]:howto/01-introduction/07-operations.md
 
 
