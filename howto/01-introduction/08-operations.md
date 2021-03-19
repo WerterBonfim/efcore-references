@@ -1,9 +1,9 @@
 # Session 8 - Operations
 
-* Insert
-* Read
-* Update
-* Delete
+* 1 - Insert
+* 2 - Read
+* 3 - Update
+* 4 - Delete
 
 
 ## 1 - Insert
@@ -25,7 +25,7 @@
     db.Produtos.Add(produto);
     // Recomended
     db.Set<Produto>().Add(produto);
-    
+
     db.Entry(produto).State = EntityState.Added;
     db.Add(produto);
 
