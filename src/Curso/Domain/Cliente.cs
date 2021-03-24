@@ -18,5 +18,10 @@ namespace CursoEFCore.Domain {
 
         // For create an example of rollback
         //public string Email { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id} Nome: {Nome}";
+        }
     }
 }

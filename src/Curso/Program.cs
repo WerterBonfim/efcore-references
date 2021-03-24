@@ -2,6 +2,8 @@
 using CursoEFCore.Domain;
 using CursoEFCore.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CursoEFCore
 {
@@ -10,7 +12,10 @@ namespace CursoEFCore
         static void Main(string[] args)
         {
             //InserirDados();
-            InserirDadosEmMassa();
+            //InserirDadosEmMassa();
+            //ConsultarDados();
+            //CadastrarPedido();
+            //ConsultarPedidoCarregamentoAdiantado();
         }
 
         private static void InserirDados()
@@ -88,6 +93,68 @@ namespace CursoEFCore
             var registros = db.SaveChanges();
             System.Console.WriteLine($"Total registers: {registros}");
 
+        }
+
+        private static void ConsultarDados()
+        {
+            using var db = new Data.ApplicationContext();
+            //var consultaPorSintaxe = (from c in db.Clientes where c.Id > 0 select c).ToList();
+            //var consultaPorMetodo = db.Clientes.Where(p => p.Id > 0).ToList();
+            var consultaPorMetodo = db.Clientes
+                //.AsNoTracking()
+                .Where(p => p.Id > 0)
+                .OrderBy(x => x.Id)
+                .ToList();
+
+
+            foreach (var cliente in consultaPorMetodo)
+            {
+                System.Console.WriteLine($"Consultado o cliente {cliente.Id}");
+                //var teste = db.Clientes.Find(cliente.Id);
+                var teste = db.Clientes.FirstOrDefault(x => x.Id == cliente.Id);
+                System.Console.WriteLine(teste.ToString());
+            }
+        }
+
+
+        private static void CadastrarPedido()
+        {
+            using var db = new Data.ApplicationContext();
+
+            var cliente = db.Clientes.FirstOrDefault();
+            var produto = db.Produtos.FirstOrDefault();
+
+            var pedido = new Pedido
+            {
+                ClienteId = cliente.Id,
+                IniciadoEm = DateTime.Now,
+                FinalizadoEm = DateTime.Now,
+                Observacao = "Pedido de teste",
+                Status = StatusPedido.Analise,
+                TipoFrete = TipoFrente.SemFrete,
+                Itens = new List<PedidoItem> {
+                    new PedidoItem{
+                        ProdutoId = produto.Id,
+                        Desconto = 0,
+                        Quantidade = 1,
+                        Valor = 10
+                    }
+                }
+            };
+
+            db.Pedidos.Add(pedido);
+            db.SaveChanges();
+        }
+
+        private static void ConsultarPedidoCarregamentoAdiantado(){
+            using var db = new Data.ApplicationContext();
+            var pedido = db.Pedidos
+                .Include(p => p.Itens) // Carregamento adiantado
+                    .ThenInclude(x => x.Produto)
+                .ToList();
+            //var pedido = db.Pedidos.Include("Itens").ToList();
+
+            System.Console.WriteLine(pedido.Count);
         }
 
     }

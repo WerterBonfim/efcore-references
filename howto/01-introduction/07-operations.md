@@ -1,4 +1,4 @@
-# Session 8 - Operations
+# Session 7 - Operations
 
 * 1 - Insert
 * 2 - Read
@@ -36,3 +36,71 @@
 
     Console.WriteLine($"Total Rows {rowsAffeted}");
 ```
+
+## 2 - Bulk Insert
+
+```bash
+# Logging
+dotnet add package Microsoft.Extensions.Logging.Console --version 5.0.0
+
+```
+
+
+```c#
+// add new private field
+ private static readonly ILoggerFactory _logger =
+            LoggerFactory.Create(p => p.AddConsole());
+
+ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+ {
+     optionsBuilder
+         .UseLoggerFactory(_logger)
+         .EnableSensitiveDataLogging()
+         .UseSqlServer("Server=localhost,1433;Database=CursoEFCore;User Id=sa; Password=!123Senha;");
+ }
+
+
+
+using var db = new Data.ApplicationContext();
+db.AddRange(product, client, anotherEntity);
+ 
+    
+```
+
+
+## 3 - Read
+* Linq
+* Extensions
+
+
+```c#
+using var db = new Data.ApplicationContext();
+//var consultaPorSintaxe = (from c in db.Clientes where c.Id > 0 select c).ToList();
+//var consultaPorMetodo = db.Clientes.Where(p => p.Id > 0).ToList();
+var consultaPorMetodo = db.Clientes
+    //.AsNoTracking()
+    .Where(p => p.Id > 0)
+    .OrderBy(x => x.Id)
+    .ToList();
+
+
+foreach (var cliente in consultaPorMetodo)
+{
+    System.Console.WriteLine($"Consultado o cliente {cliente.Id}");
+    //var teste = db.Clientes.Find(cliente.Id); // check changerTracker
+    // access database 
+    var teste = db.Clientes.FirstOrDefault(x => x.Id == cliente.Id);
+    System.Console.WriteLine(teste.ToString());
+}
+```
+
+
+Only the `find` method tries to search the memory if there is data, the other methods perform a search in the database
+
+
+
+## 4 - Lazy load
+
+Carregamento Adiantado
+Carregamento explícito
+Carregamento lento
