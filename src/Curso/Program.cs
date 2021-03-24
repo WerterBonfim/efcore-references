@@ -16,6 +16,8 @@ namespace CursoEFCore
             //ConsultarDados();
             //CadastrarPedido();
             //ConsultarPedidoCarregamentoAdiantado();
+            //AtualizarDados();
+            AtualizarDadosModoOffline();
         }
 
         private static void InserirDados()
@@ -155,6 +157,41 @@ namespace CursoEFCore
             //var pedido = db.Pedidos.Include("Itens").ToList();
 
             System.Console.WriteLine(pedido.Count);
+        }
+
+
+        private static void AtualizarDados(){
+            using var db = new Data.ApplicationContext();
+
+            var cliente = db.Clientes.FirstOrDefault();
+            cliente.Nome = "Cliente alterado 3";
+
+            // com essa linha comentada, é gerado somente update set da coluna Nome
+            //db.Clientes.Update(cliente); // altera todos todas as propriedade
+
+            // outra forma de atualizar todas as propriedades
+            //db.Entry(cliente).State = EntityState.Modified;
+
+            db.SaveChanges();
+        }
+
+        private static void AtualizarDadosModoOffline(){
+            using var db = new Data.ApplicationContext();
+
+            var cliente = new Cliente {
+                Id = 2
+            };
+
+            var clienteDesconectado = new {
+                Id = 2,
+                Nome = "Cliente desconectado 2",
+                Telefone = "11998765432"
+            };
+
+            db.Attach(cliente);
+            db.Entry(cliente).CurrentValues.SetValues(clienteDesconectado);
+
+            db.SaveChanges();
         }
 
     }

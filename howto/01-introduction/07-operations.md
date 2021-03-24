@@ -101,6 +101,57 @@ Only the `find` method tries to search the memory if there is data, the other me
 
 ## 4 - Lazy load
 
-Carregamento Adiantado
-Carregamento explícito
-Carregamento lento
+* Carregamento Adiantado
+* Carregamento explícito
+* Carregamento lento
+
+
+### Carregamento Adiantado
+
+```c#
+
+using var db = new Data.ApplicationContext();
+var pedido = db.Pedidos
+    .Include(p => p.Itens) // Carregamento adiantado
+        .ThenInclude(x => x.Produto)
+    .ToList();
+//var pedido = db.Pedidos.Include("Itens").ToList();
+
+System.Console.WriteLine(pedido.Count);
+
+```
+
+## 5 - update registers in database
+
+```c#
+
+var cliente = db.Clientes.FirstOrDefault();
+cliente.Nome = "Cliente alterado 3";
+
+// com essa linha comentada, é gerado somente update set da coluna Nome
+//db.Clientes.Update(cliente); // altera todos todas as propriedade
+
+// outra forma de atualizar todas as propriedades
+//db.Entry(cliente).State = EntityState.Modified;
+
+db.SaveChanges();
+
+
+// Desconectado
+
+var cliente = new Cliente {
+    Id = 2
+};
+
+var clienteDesconectado = new {
+    Id = 2,
+    Nome = "Cliente desconectado 2",
+    Telefone = "11998765432"
+};
+
+db.Attach(cliente);
+db.Entry(cliente).CurrentValues.SetValues(clienteDesconectado);
+
+db.SaveChanges();
+
+```
