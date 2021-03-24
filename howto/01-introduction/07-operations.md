@@ -155,3 +155,28 @@ db.Entry(cliente).CurrentValues.SetValues(clienteDesconectado);
 db.SaveChanges();
 
 ```
+
+
+## 6 - Delete
+
+
+
+
+```c#
+
+var cliente = db.Clientes.Find(3);
+
+db.Clientes.Remove(cliente);
+//db.Remove(cliente);
+//db.Entry(cliente).State = EntityState.Deleted;            
+db.SaveChanges();
+
+
+// Deleta de forma desconectada. Gera um query delete sem fazer select
+var cliente = new Cliente { Id = 4};
+db.Entry(cliente).State = EntityState.Deleted;
+
+db.SaveChanges();
+
+
+```

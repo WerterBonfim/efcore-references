@@ -9,6 +9,9 @@ namespace CursoEFCore
 {
     class Program
     {
+        
+        
+
         static void Main(string[] args)
         {
             //InserirDados();
@@ -17,7 +20,10 @@ namespace CursoEFCore
             //CadastrarPedido();
             //ConsultarPedidoCarregamentoAdiantado();
             //AtualizarDados();
-            AtualizarDadosModoOffline();
+            //AtualizarDadosModoOffline();
+            
+            //RemoverRegistro();
+            RemoverRegistroDeFormaDesconectada();
         }
 
         private static void InserirDados()
@@ -192,6 +198,31 @@ namespace CursoEFCore
             db.Entry(cliente).CurrentValues.SetValues(clienteDesconectado);
 
             db.SaveChanges();
+        }
+
+
+        private static void RemoverRegistro() {
+
+            using var db = new Data.ApplicationContext();
+            var cliente = db.Clientes.Find(3);
+
+            db.Clientes.Remove(cliente);
+            //db.Remove(cliente);
+            //db.Entry(cliente).State = EntityState.Deleted;            
+            db.SaveChanges();
+
+        }
+
+        private static void RemoverRegistroDeFormaDesconectada() {
+            
+            using var db = new Data.ApplicationContext();
+
+            // Deleta de forma desconectada. Gera um query delete sem fazer select
+            var cliente = new Cliente { Id = 4};
+            db.Entry(cliente).State = EntityState.Deleted;
+
+            db.SaveChanges();
+
         }
 
     }
