@@ -67,7 +67,6 @@ db.AddRange(product, client, anotherEntity);
     
 ```
 
-
 ## 3 - Read
 * Linq
 * Extensions
@@ -158,9 +157,6 @@ db.SaveChanges();
 
 
 ## 6 - Delete
-
-
-
 
 ```c#
 

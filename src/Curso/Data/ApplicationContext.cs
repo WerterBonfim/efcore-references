@@ -1,4 +1,5 @@
-using CursoEFCore.Data.Configuration;
+using System;
+using System.Linq;
 using CursoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,10 +18,18 @@ namespace CursoEFCore.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             optionsBuilder
                 .UseLoggerFactory(_logger)
                 .EnableSensitiveDataLogging()
-                .UseSqlServer("Server=localhost,1433;Database=CursoEFCore;User Id=sa;Password=!123Senha;");
+                .UseSqlServer("Server=localhost,1433;Database=CursoEFCore;User Id=sa;Password=!123Senha;",
+                    p => p
+                        .EnableRetryOnFailure(
+                            maxRetryCount: 2, // qtd de tentativa
+                            maxRetryDelay: TimeSpan.FromSeconds(5), // Aguardar 5 segundos após o erro
+                            errorNumbersToAdd: null)
+                        .MigrationsHistoryTable("curso_ef_core")
+                );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -89,6 +98,29 @@ namespace CursoEFCore.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
         }
 
+        private void MapearPropriedadesEsquecidas(ModelBuilder modelBuilder)
+        {
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                var properties = entity.GetProperties()
+                    .Where(x => x.ClrType == typeof(string));
+
+                foreach (var property in properties)
+                {
+                    var maxLenghtIsNotDefined =
+                        string.IsNullOrEmpty(property.GetColumnType()) &&
+                        !property.GetMaxLength().HasValue;
+
+                    if (maxLenghtIsNotDefined)
+                    {
+
+                        //property.SetMaxLength(100);
+                        property.SetColumnType("VARCHAR(100)");
+
+                    }
+                }
+            }
+        }
 
 
 

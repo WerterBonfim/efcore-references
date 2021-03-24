@@ -14,7 +14,7 @@ namespace CursoEFCore
 
         static void Main(string[] args)
         {
-            //InserirDados();
+            InserirDados();
             //InserirDadosEmMassa();
             //ConsultarDados();
             //CadastrarPedido();
@@ -23,7 +23,7 @@ namespace CursoEFCore
             //AtualizarDadosModoOffline();
             
             //RemoverRegistro();
-            RemoverRegistroDeFormaDesconectada();
+            //RemoverRegistroDeFormaDesconectada();
         }
 
         private static void InserirDados()
@@ -40,9 +40,9 @@ namespace CursoEFCore
 
             using var db = new Data.ApplicationContext();
             db.Produtos.Add(produto);
-            db.Set<Produto>().Add(produto);
-            db.Entry(produto).State = EntityState.Added;
-            db.Add(produto);
+            //db.Set<Produto>().Add(produto);
+            //db.Entry(produto).State = EntityState.Added;
+            //db.Add(produto);
 
             var rowsAffeted = db.SaveChanges();
 
