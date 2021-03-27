@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using DominandoEFCore.Data;
@@ -25,12 +26,14 @@ namespace DominandoEFCore
 
             //ExecuteSQL();
             //SqlInjection();
-            
+
             //MigracoesPendentes();
             //AplicarMigraçãoEmTempoDeExecução();
             //TodasMigracoes();
             //MigracoesJaAplicadas();
-            ScriptGeralBancoDeDados();
+            //ScriptGeralBancoDeDados();
+
+            CarregamentoAdiantado();
         }
 
         private static void GerenciamentoConexao()
@@ -69,6 +72,7 @@ namespace DominandoEFCore
             if (possoConectar) Console.WriteLine("Banco online");
             else Console.WriteLine("Banco não esta disponível");
         }
+
         private static void GerenciarEstadoDaConexao(bool gerenciarEstadoConexao)
         {
             using var db = new ApplicationContext();
@@ -115,20 +119,21 @@ namespace DominandoEFCore
             RestarBaseDeDados(db);
 
             var injection = "Teste ' or 1='1";
-            var query = "update departamentos set descricao = 'AtaqueSqlInjection' " + 
+            var query = "update departamentos set descricao = 'AtaqueSqlInjection' " +
                         $"where descricao = '{injection}'";
-            
+
             db.Database.ExecuteSqlRaw(query);
             foreach (var departamento in db.Departamentos.AsNoTracking())
             {
                 Console.WriteLine($"Id: {departamento.Id}, Descrição: {departamento.Descricao}");
             }
         }
+
         private static void RestarBaseDeDados(ApplicationContext db)
         {
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            
+
             db.Departamentos.AddRange(
                 new Departamento {Descricao = "Departamento 1"},
                 new Departamento {Descricao = "Departamento 2"},
@@ -147,7 +152,6 @@ namespace DominandoEFCore
 
             foreach (var migracoes in migracoesPendentes)
                 Console.WriteLine($"Migração: {migracoes}");
-            
         }
 
         static void AplicarMigraçãoEmTempoDeExecução()
@@ -165,9 +169,8 @@ namespace DominandoEFCore
 
             foreach (var migracao in migracoes)
                 Console.WriteLine($"Migração: {migracao}");
-            
         }
-        
+
         static void MigracoesJaAplicadas()
         {
             using var db = new ApplicationContext();
@@ -178,7 +181,6 @@ namespace DominandoEFCore
 
             foreach (var migracao in migracoes)
                 Console.WriteLine($"Migração: {migracao}");
-            
         }
 
         static void ScriptGeralBancoDeDados()
@@ -187,6 +189,65 @@ namespace DominandoEFCore
             var script = db.Database.GenerateCreateScript();
 
             Console.WriteLine(script);
+        }
+
+        static void CarregamentoAdiantado()
+        {
+            using var db = new ApplicationContext();
+            SetupTiposCarregamento(db);
+
+            var departamentos = db
+                .Departamentos
+                .Include(p => p.Funcionarios);
+
+            foreach (var departamento in departamentos)
+            {
+                Console.WriteLine("---------------------------------------------------------");
+                Console.WriteLine($"Departamento: {departamento.Descricao}");
+
+                if (departamento.Funcionarios.Any())
+                    foreach (var funcionario in departamento.Funcionarios)
+                        Console.WriteLine($"\tFuncionario: {funcionario.Nome}");
+                else
+                    Console.WriteLine($"\tNenhum funcionario encontrado!");
+            }
+        }
+
+        private static void SetupTiposCarregamento(ApplicationContext db)
+        {
+            RecriarBancoDeDados(db);
+
+            if (db.Departamentos.Any())
+                return;
+
+            db.Departamentos.AddRange(
+                new Departamento
+                {
+                    Descricao = "Departamento 01",
+                    Funcionarios = new List<Funcionario>
+                    {
+                        new Funcionario {Nome = "Werter Bonfim", Cpf = "82159287067", Rg = "1245678985"}
+                    }
+                },
+                new Departamento
+                {
+                    Descricao = "Departamento 02",
+                    Funcionarios = new List<Funcionario>
+                    {
+                        new Funcionario {Nome = "Fulano de tal", Cpf = "37075422030", Rg = "213156453"},
+                        new Funcionario {Nome = "Ciclano de tal", Cpf = "66606840007", Rg = "372172702"}
+                    }
+                }
+            );
+
+            db.SaveChanges();
+            db.ChangeTracker.Clear();
+        }
+
+        private static void RecriarBancoDeDados(ApplicationContext db)
+        {
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
         }
     }
 }
