@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CursoEFCore.Data.Configuration
 {
-
     public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
     {
         public void Configure(EntityTypeBuilder<Produto> builder)
@@ -17,6 +16,5 @@ namespace CursoEFCore.Data.Configuration
             // Salva o enum com string
             builder.Property(p => p.TipoProduto).HasConversion<string>();
         }
-
     }
 }

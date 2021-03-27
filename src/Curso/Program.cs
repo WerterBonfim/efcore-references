@@ -1,18 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CursoEFCore.Data;
 using CursoEFCore.Domain;
 using CursoEFCore.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace CursoEFCore
 {
-    class Program
+    internal class Program
     {
-        
-        
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             InserirDados();
             //InserirDadosEmMassa();
@@ -21,14 +19,13 @@ namespace CursoEFCore
             //ConsultarPedidoCarregamentoAdiantado();
             //AtualizarDados();
             //AtualizarDadosModoOffline();
-            
+
             //RemoverRegistro();
             //RemoverRegistroDeFormaDesconectada();
         }
 
         private static void InserirDados()
         {
-
             var produto = new Produto
             {
                 Descricao = "Produto teste",
@@ -38,7 +35,7 @@ namespace CursoEFCore
                 Ativo = true
             };
 
-            using var db = new Data.ApplicationContext();
+            using var db = new ApplicationContext();
             db.Produtos.Add(produto);
             //db.Set<Produto>().Add(produto);
             //db.Entry(produto).State = EntityState.Added;
@@ -47,7 +44,6 @@ namespace CursoEFCore
             var rowsAffeted = db.SaveChanges();
 
             Console.WriteLine($"Total Rows {rowsAffeted}");
-
         }
 
         private static void InserirDadosEmMassa()
@@ -71,8 +67,10 @@ namespace CursoEFCore
             };
 
 
-            var clientes = new Cliente[] {
-                new Cliente {
+            var clientes = new[]
+            {
+                new()
+                {
                     Nome = "Werter Bonfim",
                     CEP = "98765321",
                     Cidade = "São Paulo",
@@ -80,32 +78,30 @@ namespace CursoEFCore
                     Telefone = "99987654321"
                 },
 
-                new Cliente {
+                new Cliente
+                {
                     Nome = "Fulano de tal",
                     CEP = "98765321",
                     Cidade = "São Paulo",
                     Estado = "SP",
                     Telefone = "99987654321"
-                },
-
+                }
             };
 
 
-            using var db = new Data.ApplicationContext();
+            using var db = new ApplicationContext();
             db.AddRange(produto, cliente);
-
 
 
             db.AddRange(clientes);
 
             var registros = db.SaveChanges();
-            System.Console.WriteLine($"Total registers: {registros}");
-
+            Console.WriteLine($"Total registers: {registros}");
         }
 
         private static void ConsultarDados()
         {
-            using var db = new Data.ApplicationContext();
+            using var db = new ApplicationContext();
             //var consultaPorSintaxe = (from c in db.Clientes where c.Id > 0 select c).ToList();
             //var consultaPorMetodo = db.Clientes.Where(p => p.Id > 0).ToList();
             var consultaPorMetodo = db.Clientes
@@ -117,17 +113,17 @@ namespace CursoEFCore
 
             foreach (var cliente in consultaPorMetodo)
             {
-                System.Console.WriteLine($"Consultado o cliente {cliente.Id}");
+                Console.WriteLine($"Consultado o cliente {cliente.Id}");
                 //var teste = db.Clientes.Find(cliente.Id);
                 var teste = db.Clientes.FirstOrDefault(x => x.Id == cliente.Id);
-                System.Console.WriteLine(teste.ToString());
+                Console.WriteLine(teste.ToString());
             }
         }
 
 
         private static void CadastrarPedido()
         {
-            using var db = new Data.ApplicationContext();
+            using var db = new ApplicationContext();
 
             var cliente = db.Clientes.FirstOrDefault();
             var produto = db.Produtos.FirstOrDefault();
@@ -140,8 +136,10 @@ namespace CursoEFCore
                 Observacao = "Pedido de teste",
                 Status = StatusPedido.Analise,
                 TipoFrete = TipoFrente.SemFrete,
-                Itens = new List<PedidoItem> {
-                    new PedidoItem{
+                Itens = new List<PedidoItem>
+                {
+                    new()
+                    {
                         ProdutoId = produto.Id,
                         Desconto = 0,
                         Quantidade = 1,
@@ -154,20 +152,22 @@ namespace CursoEFCore
             db.SaveChanges();
         }
 
-        private static void ConsultarPedidoCarregamentoAdiantado(){
-            using var db = new Data.ApplicationContext();
+        private static void ConsultarPedidoCarregamentoAdiantado()
+        {
+            using var db = new ApplicationContext();
             var pedido = db.Pedidos
                 .Include(p => p.Itens) // Carregamento adiantado
-                    .ThenInclude(x => x.Produto)
+                .ThenInclude(x => x.Produto)
                 .ToList();
             //var pedido = db.Pedidos.Include("Itens").ToList();
 
-            System.Console.WriteLine(pedido.Count);
+            Console.WriteLine(pedido.Count);
         }
 
 
-        private static void AtualizarDados(){
-            using var db = new Data.ApplicationContext();
+        private static void AtualizarDados()
+        {
+            using var db = new ApplicationContext();
 
             var cliente = db.Clientes.FirstOrDefault();
             cliente.Nome = "Cliente alterado 3";
@@ -181,14 +181,17 @@ namespace CursoEFCore
             db.SaveChanges();
         }
 
-        private static void AtualizarDadosModoOffline(){
-            using var db = new Data.ApplicationContext();
+        private static void AtualizarDadosModoOffline()
+        {
+            using var db = new ApplicationContext();
 
-            var cliente = new Cliente {
+            var cliente = new Cliente
+            {
                 Id = 2
             };
 
-            var clienteDesconectado = new {
+            var clienteDesconectado = new
+            {
                 Id = 2,
                 Nome = "Cliente desconectado 2",
                 Telefone = "11998765432"
@@ -201,29 +204,26 @@ namespace CursoEFCore
         }
 
 
-        private static void RemoverRegistro() {
-
-            using var db = new Data.ApplicationContext();
+        private static void RemoverRegistro()
+        {
+            using var db = new ApplicationContext();
             var cliente = db.Clientes.Find(3);
 
             db.Clientes.Remove(cliente);
             //db.Remove(cliente);
             //db.Entry(cliente).State = EntityState.Deleted;            
             db.SaveChanges();
-
         }
 
-        private static void RemoverRegistroDeFormaDesconectada() {
-            
-            using var db = new Data.ApplicationContext();
+        private static void RemoverRegistroDeFormaDesconectada()
+        {
+            using var db = new ApplicationContext();
 
             // Deleta de forma desconectada. Gera um query delete sem fazer select
-            var cliente = new Cliente { Id = 4};
+            var cliente = new Cliente {Id = 4};
             db.Entry(cliente).State = EntityState.Deleted;
 
             db.SaveChanges();
-
         }
-
     }
 }

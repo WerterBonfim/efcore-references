@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CursoEFCore.Data.Configuration
 {
-
     public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
     {
         public void Configure(EntityTypeBuilder<Pedido> builder)
@@ -24,6 +23,5 @@ namespace CursoEFCore.Data.Configuration
                 // Deleta todos os itens do pedido
                 .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }

@@ -8,7 +8,6 @@ namespace CursoEFCore.Data
 {
     public class ApplicationContext : DbContext
     {
-
         private static readonly ILoggerFactory _logger =
             LoggerFactory.Create(p => p.AddConsole());
 
@@ -18,23 +17,21 @@ namespace CursoEFCore.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             optionsBuilder
                 .UseLoggerFactory(_logger)
                 .EnableSensitiveDataLogging()
                 .UseSqlServer("Server=localhost,1433;Database=CursoEFCore;User Id=sa;Password=!123Senha;",
                     p => p
                         .EnableRetryOnFailure(
-                            maxRetryCount: 2, // qtd de tentativa
-                            maxRetryDelay: TimeSpan.FromSeconds(5), // Aguardar 5 segundos após o erro
-                            errorNumbersToAdd: null)
+                            2, // qtd de tentativa
+                            TimeSpan.FromSeconds(5), // Aguardar 5 segundos após o erro
+                            null)
                         .MigrationsHistoryTable("curso_ef_core")
                 );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             #region [ modelBuilder ]
 
             // modelBuilder.Entity<Cliente>(p =>
@@ -112,18 +109,10 @@ namespace CursoEFCore.Data
                         !property.GetMaxLength().HasValue;
 
                     if (maxLenghtIsNotDefined)
-                    {
-
                         //property.SetMaxLength(100);
                         property.SetColumnType("VARCHAR(100)");
-
-                    }
                 }
             }
         }
-
-
-
-
     }
 }

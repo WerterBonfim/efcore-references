@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CursoEFCore.Data.Configuration
 {
-
     public class PedidoItemConfiguration : IEntityTypeConfiguration<PedidoItem>
     {
         public void Configure(EntityTypeBuilder<PedidoItem> builder)
@@ -15,6 +14,5 @@ namespace CursoEFCore.Data.Configuration
             builder.Property(p => p.Valor).IsRequired();
             builder.Property(p => p.Desconto).IsRequired();
         }
-
     }
 }

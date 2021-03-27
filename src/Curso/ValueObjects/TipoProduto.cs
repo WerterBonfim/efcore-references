@@ -1,5 +1,7 @@
-namespace CursoEFCore.ValueObjects {
-    public enum TipoProduto {
+namespace CursoEFCore.ValueObjects
+{
+    public enum TipoProduto
+    {
         MercadoriaParaRevenda,
         Embalagem,
         Servico
