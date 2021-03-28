@@ -83,3 +83,18 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 3 - Carregamento Lento (Famoso LazyLoad)
 
 [level02.tipos-de-carregamento]:howto/02-mastering/04-tipos-de-carregamento-deep-dive.md
+
+
+## [Section 5 - Consultas ][level02.tipos-de-carregamento]
+
+* 1 - Configurando um filtro global
+* 2 - Ignorando filtros globais
+* 3 - Consultas projetadas
+* 4 - Consulta parametrizada
+* 5 - Consulta interpolada
+* 6 - Usando o recurso TAG em consultas
+* 7 - Entendendo diferença em consulta 1xN vs Nx1
+* 8 - Divisão de consultas com SplitQuery
+
+
+[level02.tipos-de-carregamento]:howto/02-mastering/05-consultas.md
