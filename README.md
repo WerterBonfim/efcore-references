@@ -85,7 +85,7 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 [level02.tipos-de-carregamento]:howto/02-mastering/04-tipos-de-carregamento-deep-dive.md
 
 
-## [Section 5 - Consultas ][level02.tipos-de-carregamento]
+## [Section 5 - Consultas ][level02.consultas]
 
 * 1 - Configurando um filtro global
 * 2 - Ignorando filtros globais
@@ -97,4 +97,4 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 8 - Divisão de consultas com SplitQuery
 
 
-[level02.tipos-de-carregamento]:howto/02-mastering/05-consultas.md
+[level02.consultas]:howto/02-mastering/05-consultas.md
