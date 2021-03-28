@@ -5,6 +5,8 @@ I learned through:
 * 
 
 
+[dev.io]:https://desenvolvedor.io/
+[rafael]:https://github.com/ralmsdeveloper
 
 
 EFCore version 5.0.3
@@ -32,6 +34,8 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
  * 7 - Generate Scripts Sql Idempotent
  * 8 - Rollback Migrations
 
+ [level01.migrations]:howto/01-introduction/06-migracoes.md
+
 ## [Section 7 - Operations][level01.operations]
 
 * 1 - Insert
@@ -39,16 +43,21 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 3 - Update
 * 4 - Delete
 
+[level01.operations]:howto/01-introduction/07-operations.md
+
 ## [Section 8 - Bonus][level01.bonus]
 * 1 - Deletando propriedades não configuradas
 * 2 - Resiliência da conexão
 * 3 - Alterando o nome da tabela de histórico de migrações
+
+[level01.bonus]:howto/01-introduction/08-bonus.md
 
 
 # Mastering to Entity Framework Core section
 
 ## [Section 2 - Setup][level02.setup]
 
+[level02.setup]:howto/02-mastering/02-setup.md
 
 ## [Section 3 - EF Database][level02.ef-database]
 
@@ -65,12 +74,12 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 11 - Gerar Script Sql de seu modelo de dados
 
 
-[dev.io]:https://desenvolvedor.io/
-[rafael]:https://github.com/ralmsdeveloper
-
-[level01.migrations]:howto/01-introduction/06-migracoes.md
-[level01.operations]:howto/01-introduction/07-operations.md
-[level01.bonus]:howto/01-introduction/08-bonus.md
-
-[level02.setup]:howto/02-mastering/02-setup.md
 [level02.ef-database]:howto/02-mastering/03-ef-database.md
+
+## [Section 4 - Tipos de carregamento - DeepDive][level02.tipos-de-carregamento]
+
+* 1 - Carregamento Adiantado (Eager)
+* 2 - Carregamento Explícito
+* 3 - Carregamento Lento (Famoso LazyLoad)
+
+[level02.tipos-de-carregamento]:howto/02-mastering/04-tipos-de-carregamento-deep-dive.md
