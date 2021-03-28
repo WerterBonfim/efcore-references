@@ -13,7 +13,7 @@ Departamento possui muitos Funcionarios
 Um Funcionario possui um departamento.
 
 Força o relacionamento trazendo os dados das propriedades de navegação.
-E um otimo recurso para quando a poucos dados a ser retornado.
+É um otimo recurso para quando a poucos dados a ser retornado.
 
 TradeOff: Se ouver muito dados pode haver uma explosão cartesiana. As linhas do lado unico sempre serão duplicadas para os registro correspondentes no lado de muitos. Para cada funcionario sera carregando novamente um departamento.
 
@@ -74,7 +74,7 @@ foreach (var departamento in departamentos)
 ## 3 - Carregamento Lento (Famoso LazyLoad)
 
 
-Significa que os dados relacionados são carregado sob demanda do banco de dados
+Significa que os dados relacionados são carregando sob demanda do banco de dados
 quando a propriedade de navegação é acessada.
 
 Dependencia: Microsoft.EntityFrameworkCore.Proxies --version 5.0.4
@@ -111,7 +111,7 @@ public virtual Departamento Departamento { get; set; }
 
 ```
 
-Para desabilitar o LazyLoad em um lugar expecifico:
+Para desabilitar o LazyLoad em um lugar específico:
 
 ```c#
 // Desablitar lazy dentro de uma consulta especificada
