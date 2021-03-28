@@ -12,11 +12,16 @@ namespace DominandoEFCore.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var stringDeConexao = "Server=localhost,1433;Database=DominandoEFCore;User Id=sa; Password=!123Senha;pooling=true";
+            var stringDeConexao = "Server=localhost,1433;" +
+                                  "Database=DominandoEFCore;" +
+                                  "User Id=sa; " +
+                                  "Password=!123Senha;pooling=true;";
+                                  //"MultipleActiveResultSets=true";
 
             optionsBuilder
                 .UseSqlServer(stringDeConexao)
                 .EnableSensitiveDataLogging()
+                //.UseLazyLoadingProxies()
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 ;
         }
