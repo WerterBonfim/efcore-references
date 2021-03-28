@@ -9,7 +9,7 @@ I learned through:
 [rafael]:https://github.com/ralmsdeveloper
 
 
-EFCore version 5.0.3
+EFCore version 5.0.4
 
 ## How to execute
 
