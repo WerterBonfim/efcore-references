@@ -16,14 +16,21 @@ namespace DominandoEFCore.Data
                                   "Database=DominandoEFCore;" +
                                   "User Id=sa; " +
                                   "Password=!123Senha;pooling=true;";
-                                  //"MultipleActiveResultSets=true";
+            //"MultipleActiveResultSets=true";
 
             optionsBuilder
-                .UseSqlServer(stringDeConexao)
+                .UseSqlServer(stringDeConexao
+                    //,p => p.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+                )
                 .EnableSensitiveDataLogging()
                 //.UseLazyLoadingProxies()
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 ;
         }
+
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<Departamento>().HasQueryFilter(x => x!.Excluido);
+        // }
     }
 }
