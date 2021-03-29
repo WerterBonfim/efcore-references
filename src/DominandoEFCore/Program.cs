@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using DominandoEFCore.Data;
 using DominandoEFCore.Domain;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -33,19 +34,26 @@ namespace DominandoEFCore
             //MigracoesJaAplicadas();
             //ScriptGeralBancoDeDados();
 
-            
+            // Sessão 04 - tipos de carregamento
             //CarregamentoAdiantado();
             //CarregamentoExplicito();
             //CarregamentoLento();
             
-            
+            // Sessão 05 - Consultas
             //IgnoreFiltroGlobal();
             //ConsultasProjetadas();
             //ConsultaParmetrizada();
             //ConsultaInterpolada();
             //ConsultaComTAG();
             //EntendendoConsultas1NN1();
-            DivisaoDeConsulta();
+            //DivisaoDeConsulta();
+            
+            
+            // Sessão 06 - Stored Procedure
+            //CriarStoredProcedure();
+            //InserirDadosViaProcedure();
+            //CriarStoredProcedureDeConsulta();
+            ConsultaViaProcedure();
         }
 
         private static void GerenciamentoConexao()
@@ -225,41 +233,6 @@ namespace DominandoEFCore
             }
         }
 
-        private static void CargaInicial(ApplicationContext db)
-        {
-            RecriarBancoDeDados(db);
-
-            db.Departamentos.AddRange(
-                new Departamento
-                {
-                    Descricao = "Departamento 01",
-                    Funcionarios = new List<Funcionario>
-                    {
-                        new Funcionario {Nome = "Werter Bonfim", Cpf = "82159287067", Rg = "1245678985"}
-                    },
-                    Excluido = true
-                },
-                new Departamento
-                {
-                    Descricao = "Departamento 02",
-                    Funcionarios = new List<Funcionario>
-                    {
-                        new Funcionario {Nome = "Fulano de tal", Cpf = "37075422030", Rg = "213156453"},
-                        new Funcionario {Nome = "Ciclano de tal", Cpf = "66606840007", Rg = "372172702"}
-                    }
-                }
-            );
-
-            db.SaveChanges();
-            db.ChangeTracker.Clear();
-        }
-
-        private static void RecriarBancoDeDados(ApplicationContext db)
-        {
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
-        }
-
         static void CarregamentoExplicito()
         {
             using var db = new ApplicationContext();
@@ -301,7 +274,7 @@ namespace DominandoEFCore
                     Console.WriteLine($"\tNenhum funcionario encontrado!");
             }
         }
-        
+
         static void CarregamentoLento()
         {
             using var db = new ApplicationContext();
@@ -328,6 +301,49 @@ namespace DominandoEFCore
             }
         }
 
+        
+
+        #region [ Helpers ]
+        private static void CargaInicial(ApplicationContext db)
+        {
+            RecriarBancoDeDados(db);
+
+            db.Departamentos.AddRange(
+                new Departamento
+                {
+                    Descricao = "Departamento 01",
+                    Funcionarios = new List<Funcionario>
+                    {
+                        new Funcionario {Nome = "Werter Bonfim", Cpf = "82159287067", Rg = "1245678985"}
+                    },
+                    Excluido = true
+                },
+                new Departamento
+                {
+                    Descricao = "Departamento 02",
+                    Funcionarios = new List<Funcionario>
+                    {
+                        new Funcionario {Nome = "Fulano de tal", Cpf = "37075422030", Rg = "213156453"},
+                        new Funcionario {Nome = "Ciclano de tal", Cpf = "66606840007", Rg = "372172702"}
+                    }
+                }
+            );
+
+            db.SaveChanges();
+            db.ChangeTracker.Clear();
+        }
+
+        private static void RecriarBancoDeDados(ApplicationContext db)
+        {
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+        }
+        
+
+        #endregion
+
+        #region [ 05 - Consultas ]
+
         static void FiltroGlobal()
         {
             using var db = new ApplicationContext();
@@ -341,7 +357,6 @@ namespace DominandoEFCore
                 Console.WriteLine($"Descrição: {departamento.Descricao} \t Excluido: {departamento.Excluido}");
             
         }
-        
         static void IgnoreFiltroGlobal()
         {
             using var db = new ApplicationContext();
@@ -504,6 +519,73 @@ namespace DominandoEFCore
 
 
         }
+        
+        #endregion
+
+        #region [ 07 - Stored Procedure ]
+
+        static void CriarStoredProcedure()
+        {
+            var criarDepartamento = @"
+                    create or
+                    alter procedure CriarDepartamento @Descricao varchar(50),
+                                                      @Ativo bit
+                    as
+                    begin
+                        insert into Departamentos (Descricao, Ativo, Excluido)
+                        values (@Descricao, @Ativo, 0)
+                    end";
+
+            using var db = new ApplicationContext();
+
+            db.Database.ExecuteSqlRaw(criarDepartamento);
+        }
+
+        static void InserirDadosViaProcedure()
+        {
+            using var db = new ApplicationContext();
+
+            //db.Database.ExecuteSqlRaw("execute CriarDepartamento @p0, @p1", new object[] {"", ""});
+            db.Database.ExecuteSqlRaw("execute CriarDepartamento @p0, @p1", 
+                "Departamento Via Procedure", true);
+
+        }
+        static void CriarStoredProcedureDeConsulta()
+        {
+            var criarPesquisa = @"
+                    create or
+                    alter procedure ListarDepartamentos @Descricao varchar(50)
+                    as
+                    begin
+                        select * from Departamentos where Descricao like @Descricao + '%'
+                    end";
+            
+            using var db = new ApplicationContext();
+            db.Database.ExecuteSqlRaw(criarPesquisa);
+
+        }
+        
+        static void ConsultaViaProcedure()
+        {
+            using var db = new ApplicationContext();
+
+            var dep = new SqlParameter("@dep", "departamento");
+
+            var departamentos = db.Departamentos
+                // Por debaixo dos panos ele gerar um @p0
+                //.FromSqlRaw("execute ListarDepartamentos {0}", "dep")
+                //.FromSqlRaw("execute ListarDepartamentos @dep", dep)
+                //.FromSqlInterpolated($"execute ListarDepartamentos {dep}")
+                .FromSqlRaw("execute ListarDepartamentos @p0", "dep")
+                .ToList();
+
+            foreach (var departamento in departamentos)
+                Console.WriteLine($"Nome departamento: {departamento.Descricao}");
+            
+
+        }
+        
+        #endregion
         
     }
 }

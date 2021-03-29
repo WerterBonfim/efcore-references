@@ -98,3 +98,15 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.consultas]:howto/02-mastering/05-consultas.md
+
+
+## [Section 6 - Stored Procedures ][level02.stored-procedures]
+
+* 1 - Criando uma procedure de inserção
+* 2 - Executando uma inserção via procedure
+* 3 - Criando uma procedure de consulta
+* 4 - Executando uma consulta via procedure
+
+
+[level02.stored-procedures]:howto/02-mastering/06-stored-procedure.md
+
