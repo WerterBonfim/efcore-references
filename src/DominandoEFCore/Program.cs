@@ -53,7 +53,10 @@ namespace DominandoEFCore
             //CriarStoredProcedure();
             //InserirDadosViaProcedure();
             //CriarStoredProcedureDeConsulta();
-            ConsultaViaProcedure();
+            //ConsultaViaProcedure();
+            
+            // Sessão 07 - Infraestrutura
+            ConsultarDepartamentos();
         }
 
         private static void GerenciamentoConexao()
@@ -522,7 +525,7 @@ namespace DominandoEFCore
         
         #endregion
 
-        #region [ 07 - Stored Procedure ]
+        #region [ 06 - Stored Procedure ]
 
         static void CriarStoredProcedure()
         {
@@ -583,6 +586,19 @@ namespace DominandoEFCore
                 Console.WriteLine($"Nome departamento: {departamento.Descricao}");
             
 
+        }
+        
+        #endregion
+
+        #region [ 07 - Infraestrutura ]
+
+        static void ConsultarDepartamentos()
+        {
+            using var db = new ApplicationContext();
+
+            var departamentos = db.Departamentos
+                .Where(p => p.Id > 0)
+                .ToArray();
         }
         
         #endregion

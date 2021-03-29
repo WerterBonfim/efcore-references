@@ -110,3 +110,19 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 [level02.stored-procedures]:howto/02-mastering/06-stored-procedure.md
 
+
+## [Section 7 - Infraestrutura ][level02.infraestrutura]
+
+* 1 - Configurando log simplificado
+* 2 - Filtrado categoria de log
+* 3 - Escrevendo log em um arquivo
+* 4 - Habilitando erros detalhados
+* 5 - Habilitando visualização dos dados sensíveis
+* 6 - Configurando o batch size
+* 7 - Configurando o timeout do comando global
+* 8 - Configurando o timeout para um comando para um fluxo
+* 9 - Confgurando resiliência para sua aplicação
+* 10 - Criando uma estratégia de resiliência
+
+
+[level02.infraestrutura]:howto/02-mastering/07-infraestrutura.md

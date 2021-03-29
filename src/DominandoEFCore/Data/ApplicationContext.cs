@@ -22,7 +22,7 @@ namespace DominandoEFCore.Data
                 .UseSqlServer(stringDeConexao
                     //,p => p.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
                 )
-                .EnableSensitiveDataLogging()
+                //.EnableSensitiveDataLogging()
                 //.UseLazyLoadingProxies()
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 ;
