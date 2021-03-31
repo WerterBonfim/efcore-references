@@ -15,6 +15,7 @@ namespace DominandoEFCore
     {
         private static int _count;
 
+        //https://github.com/JonPSmith/EfCore.TestSupport
         private static void Main(string[] args)
         {
             //EnsureCreatedAndDeleted();
@@ -38,7 +39,7 @@ namespace DominandoEFCore
             //CarregamentoAdiantado();
             //CarregamentoExplicito();
             //CarregamentoLento();
-            
+
             // Sessão 05 - Consultas
             //IgnoreFiltroGlobal();
             //ConsultasProjetadas();
@@ -47,17 +48,27 @@ namespace DominandoEFCore
             //ConsultaComTAG();
             //EntendendoConsultas1NN1();
             //DivisaoDeConsulta();
-            
-            
+
+
             // Sessão 06 - Stored Procedure
             //CriarStoredProcedure();
             //InserirDadosViaProcedure();
             //CriarStoredProcedureDeConsulta();
             //ConsultaViaProcedure();
-            
+
             // Sessão 07 - Infraestrutura
-            ConsultarDepartamentos();
+            //ConsultarDepartamentos();
+            // DadosSensiveis();
+            //HabilitandoBatchSize();
+            //TempoCommandoGeral2();
+            ExecutarEstrategiaResiliencia();
         }
+
+        #region [ Concluidos ]
+
+        
+
+        
 
         private static void GerenciamentoConexao()
         {
@@ -214,6 +225,8 @@ namespace DominandoEFCore
             Console.WriteLine(script);
         }
 
+        #region [ Sessão 04 - tipos de carregamento ]
+
         static void CarregamentoAdiantado()
         {
             using var db = new ApplicationContext();
@@ -304,7 +317,7 @@ namespace DominandoEFCore
             }
         }
 
-        
+        #endregion
 
         #region [ Helpers ]
         private static void CargaInicial(ApplicationContext db)
@@ -589,6 +602,9 @@ namespace DominandoEFCore
         }
         
         #endregion
+        
+        
+        #endregion
 
         #region [ 07 - Infraestrutura ]
 
@@ -600,6 +616,65 @@ namespace DominandoEFCore
                 .Where(p => p.Id > 0)
                 .ToArray();
         }
+
+        static void DadosSensiveis()
+        {
+            using var db = new ApplicationContext();
+
+            var departamento = "Departamento";
+            
+            var departamentos = db.Departamentos
+                .Where(x => x.Descricao == departamento)
+                .ToArray();
+        }
+
+        static void HabilitandoBatchSize()
+        {
+            using var db = new ApplicationContext();
+            
+            RecriarBancoDeDados(db);
+
+            for (var i = 0; i < 50; i++)
+                db.Departamentos.Add(new Departamento {Descricao = "Departamento " + i});
+
+            db.SaveChanges();
+
+        }
+
+        static void TempoCommandoGeral()
+        {
+            using var db = new ApplicationContext();
+
+            db.Database.ExecuteSqlRaw("WAITFOR DELAY '00:00:07'  ;SELECT 1");
+
+        }
+        
+        static void TempoCommandoGeral2()
+        {
+            using var db = new ApplicationContext();
+
+            db.Database.SetCommandTimeout(10);
+            db.Database.ExecuteSqlRaw("WAITFOR DELAY '00:00:07'  ;SELECT 1");
+
+        }
+
+        static void ExecutarEstrategiaResiliencia()
+        {
+            using var db = new ApplicationContext();
+
+            var strategy = db.Database.CreateExecutionStrategy();
+            strategy.Execute(() =>
+            {
+                using var transaction = db.Database.BeginTransaction();
+
+                db.Departamentos.Add(new Departamento {Descricao = "Departament transação"});
+                db.SaveChanges();
+                
+                transaction.Commit();
+            });
+        }
+        
+        
         
         #endregion
         

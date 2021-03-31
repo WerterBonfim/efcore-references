@@ -1,14 +1,23 @@
 using System;
+using System.IO;
 using DominandoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 namespace DominandoEFCore.Data
 {
     public class ApplicationContext : DbContext
     {
+        private readonly string _logEF = "/home/werter/Documents/dev-logs/efcore/ef_log.txt";
+        private readonly StreamWriter _writer;
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
+
+        public ApplicationContext()
+        {
+            _writer = new StreamWriter(_logEF, true);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,21 +25,22 @@ namespace DominandoEFCore.Data
                                   "Database=DominandoEFCore;" +
                                   "User Id=sa; " +
                                   "Password=!123Senha;pooling=true;";
-            //"MultipleActiveResultSets=true";
 
             optionsBuilder
-                .UseSqlServer(stringDeConexao
-                    //,p => p.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+                .UseSqlServer(stringDeConexao, x => x
+                    .MaxBatchSize(50)
+                    .CommandTimeout(5)
+                    .EnableRetryOnFailure(4, TimeSpan.FromSeconds(10), null)
                 )
-                //.EnableSensitiveDataLogging()
-                //.UseLazyLoadingProxies()
+                .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 ;
         }
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<Departamento>().HasQueryFilter(x => x!.Excluido);
-        // }
+        public override void Dispose()
+        {
+            base.Dispose();
+            _writer.Dispose();
+        }
     }
 }
