@@ -11,8 +11,5 @@ namespace DominandoEFCore.Domain
         public bool Excluido { get; set; }
         public int DepartamentoId { get; set; }
         public Departamento Departamento { get; set; }
-
-
-        
     }
 }   

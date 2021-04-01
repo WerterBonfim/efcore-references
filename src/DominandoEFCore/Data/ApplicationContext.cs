@@ -1,23 +1,21 @@
 using System;
 using System.IO;
+using DominandoEFCore.Conversores;
 using DominandoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging;
 
 namespace DominandoEFCore.Data
 {
     public class ApplicationContext : DbContext
     {
-        private readonly string _logEF = "/home/werter/Documents/dev-logs/efcore/ef_log.txt";
-        private readonly StreamWriter _writer;
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
-
-        public ApplicationContext()
-        {
-            _writer = new StreamWriter(_logEF, true);
-        }
+        public DbSet<Estado> Estados { get; set; }
+        public DbSet<Conversor> Conversores { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,20 +25,26 @@ namespace DominandoEFCore.Data
                                   "Password=!123Senha;pooling=true;";
 
             optionsBuilder
-                .UseSqlServer(stringDeConexao, x => x
-                    .MaxBatchSize(50)
-                    .CommandTimeout(5)
-                    .EnableRetryOnFailure(4, TimeSpan.FromSeconds(10), null)
-                )
+                .UseSqlServer(stringDeConexao)
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 ;
         }
 
-        public override void Dispose()
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.Dispose();
-            _writer.Dispose();
+            modelBuilder.Entity<Cliente>(p =>
+            {
+                p.OwnsOne(x => x.Endereco, end =>
+                {
+                    end.Property(p => p.Bairro).HasColumnName("Bairro");
+
+                    // Table Split
+                    end.ToTable("Endereco");
+                });
+            });
+
         }
     }
 }

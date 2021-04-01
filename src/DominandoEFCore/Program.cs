@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO.Pipes;
 using System.Linq;
 using DominandoEFCore.Data;
 using DominandoEFCore.Domain;
@@ -61,14 +62,67 @@ namespace DominandoEFCore
             // DadosSensiveis();
             //HabilitandoBatchSize();
             //TempoCommandoGeral2();
-            ExecutarEstrategiaResiliencia();
+            //ExecutarEstrategiaResiliencia();
+
+            // Sessão 08 - Modelo de dados
+            //Collections();
+            //ProgagarDados();
+            //Esquema();
+            //ConversorDeValor();
+            //ConversorCustomizado();
+            //ShadowProperty();
+            //TrabalhandoComPropriedadesDeSombra();
+            // Muito importante, muito bom
+            TiposDePropriedades();
         }
 
+        #region [ Helpers ]
+
+        private static void CargaInicial(ApplicationContext db)
+        {
+            RecriarBancoDeDados(db);
+
+            db.Departamentos.AddRange(
+                new Departamento
+                {
+                    Descricao = "Departamento 01",
+                    Funcionarios = new List<Funcionario>
+                    {
+                        new Funcionario {Nome = "Werter Bonfim", Cpf = "82159287067", Rg = "1245678985"}
+                    },
+                    Excluido = true
+                },
+                new Departamento
+                {
+                    Descricao = "Departamento 02",
+                    Funcionarios = new List<Funcionario>
+                    {
+                        new Funcionario {Nome = "Fulano de tal", Cpf = "37075422030", Rg = "213156453"},
+                        new Funcionario {Nome = "Ciclano de tal", Cpf = "66606840007", Rg = "372172702"}
+                    }
+                }
+            );
+
+            db.SaveChanges();
+            db.ChangeTracker.Clear();
+        }
+
+        private static void RecriarBancoDeDados(ApplicationContext db)
+        {
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+        }
+
+        static void ScriptEmConsole()
+        {
+            using var db = new ApplicationContext();
+            var script = db.Database.GenerateCreateScript();
+            Console.WriteLine(script);
+        }
+
+        #endregion
+
         #region [ Concluidos ]
-
-        
-
-        
 
         private static void GerenciamentoConexao()
         {
@@ -261,7 +315,7 @@ namespace DominandoEFCore
                 // e o EF fecha a conexão.
                 // Outra alternativa e utilizar a propriedade
                 // MultipleActiveResultSets=true na string de conexão             
-                .Departamentos 
+                .Departamentos
                 .ToList();
 
 
@@ -300,7 +354,7 @@ namespace DominandoEFCore
             //db.ChangeTracker.LazyLoadingEnabled = false;
 
             var departamentos = db
-                .Departamentos 
+                .Departamentos
                 .ToList();
 
 
@@ -319,44 +373,6 @@ namespace DominandoEFCore
 
         #endregion
 
-        #region [ Helpers ]
-        private static void CargaInicial(ApplicationContext db)
-        {
-            RecriarBancoDeDados(db);
-
-            db.Departamentos.AddRange(
-                new Departamento
-                {
-                    Descricao = "Departamento 01",
-                    Funcionarios = new List<Funcionario>
-                    {
-                        new Funcionario {Nome = "Werter Bonfim", Cpf = "82159287067", Rg = "1245678985"}
-                    },
-                    Excluido = true
-                },
-                new Departamento
-                {
-                    Descricao = "Departamento 02",
-                    Funcionarios = new List<Funcionario>
-                    {
-                        new Funcionario {Nome = "Fulano de tal", Cpf = "37075422030", Rg = "213156453"},
-                        new Funcionario {Nome = "Ciclano de tal", Cpf = "66606840007", Rg = "372172702"}
-                    }
-                }
-            );
-
-            db.SaveChanges();
-            db.ChangeTracker.Clear();
-        }
-
-        private static void RecriarBancoDeDados(ApplicationContext db)
-        {
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
-        }
-        
-
-        #endregion
 
         #region [ 05 - Consultas ]
 
@@ -371,8 +387,8 @@ namespace DominandoEFCore
 
             foreach (var departamento in departamentos)
                 Console.WriteLine($"Descrição: {departamento.Descricao} \t Excluido: {departamento.Excluido}");
-            
         }
+
         static void IgnoreFiltroGlobal()
         {
             using var db = new ApplicationContext();
@@ -385,9 +401,8 @@ namespace DominandoEFCore
 
             foreach (var departamento in departamentos)
                 Console.WriteLine($"Descrição: {departamento.Descricao} \t Excluido: {departamento.Excluido}");
-            
         }
-        
+
         static void ConsultasProjetadas()
         {
             using var db = new ApplicationContext();
@@ -406,13 +421,11 @@ namespace DominandoEFCore
             foreach (var departamento in departamentos)
             {
                 Console.WriteLine($"Departamento: {departamento.Descricao}");
-                foreach(var funcionario in departamento.Funcionarios)
+                foreach (var funcionario in departamento.Funcionarios)
                     Console.WriteLine($"\tFuncionario: {funcionario}");
             }
-
-            
         }
-        
+
         static void ConsultaParmetrizada()
         {
             using var db = new ApplicationContext();
@@ -428,10 +441,9 @@ namespace DominandoEFCore
             foreach (var departamento in departamentos)
             {
                 Console.WriteLine($"Departamento: {departamento.Descricao}");
-                
             }
         }
-        
+
         static void ConsultaInterpolada()
         {
             using var db = new ApplicationContext();
@@ -440,15 +452,14 @@ namespace DominandoEFCore
             var id = 0;
 
             var departamentos = db.Departamentos
-                .FromSqlInterpolated($"SELECT * FROM Departamentos WITH(NOLOCK) WHERE id > {id}" )
+                .FromSqlInterpolated($"SELECT * FROM Departamentos WITH(NOLOCK) WHERE id > {id}")
                 .Where(p => !p.Excluido)
                 .ToList();
 
             foreach (var departamento in departamentos)
                 Console.WriteLine($"Departamento: {departamento.Descricao}");
-
         }
-        
+
         static void ConsultaComTAG()
         {
             using var db = new ApplicationContext();
@@ -465,9 +476,8 @@ namespace DominandoEFCore
 
             foreach (var departamento in departamentos)
                 Console.WriteLine($"Departamento: {departamento.Descricao}");
-
         }
-        
+
         static void EntendendoConsultas1NN1()
         {
             using var db = new ApplicationContext();
@@ -492,10 +502,8 @@ namespace DominandoEFCore
 
             foreach (var funcionario in funcionarios)
                 Console.WriteLine($"Nome: {funcionario.Nome}\tDepartamento: {funcionario.Departamento.Descricao}");
-
-
         }
-        
+
         static void DivisaoDeConsulta()
         {
             using var db = new ApplicationContext();
@@ -513,8 +521,8 @@ namespace DominandoEFCore
                     Console.WriteLine($"\tNome: {funcionario.Nome}");
                 }
             }
-            
-            
+
+
             var departamentos2 = db.Departamentos
                 .Include(p => p.Funcionarios)
                 .Where(p => p.Id < 3)
@@ -530,12 +538,8 @@ namespace DominandoEFCore
                     Console.WriteLine($"\tNome: {funcionario.Nome}");
                 }
             }
-
-           
-
-
         }
-        
+
         #endregion
 
         #region [ 06 - Stored Procedure ]
@@ -562,10 +566,10 @@ namespace DominandoEFCore
             using var db = new ApplicationContext();
 
             //db.Database.ExecuteSqlRaw("execute CriarDepartamento @p0, @p1", new object[] {"", ""});
-            db.Database.ExecuteSqlRaw("execute CriarDepartamento @p0, @p1", 
+            db.Database.ExecuteSqlRaw("execute CriarDepartamento @p0, @p1",
                 "Departamento Via Procedure", true);
-
         }
+
         static void CriarStoredProcedureDeConsulta()
         {
             var criarPesquisa = @"
@@ -575,12 +579,11 @@ namespace DominandoEFCore
                     begin
                         select * from Departamentos where Descricao like @Descricao + '%'
                     end";
-            
+
             using var db = new ApplicationContext();
             db.Database.ExecuteSqlRaw(criarPesquisa);
-
         }
-        
+
         static void ConsultaViaProcedure()
         {
             using var db = new ApplicationContext();
@@ -597,13 +600,8 @@ namespace DominandoEFCore
 
             foreach (var departamento in departamentos)
                 Console.WriteLine($"Nome departamento: {departamento.Descricao}");
-            
-
         }
-        
-        #endregion
-        
-        
+
         #endregion
 
         #region [ 07 - Infraestrutura ]
@@ -622,7 +620,7 @@ namespace DominandoEFCore
             using var db = new ApplicationContext();
 
             var departamento = "Departamento";
-            
+
             var departamentos = db.Departamentos
                 .Where(x => x.Descricao == departamento)
                 .ToArray();
@@ -631,14 +629,13 @@ namespace DominandoEFCore
         static void HabilitandoBatchSize()
         {
             using var db = new ApplicationContext();
-            
+
             RecriarBancoDeDados(db);
 
             for (var i = 0; i < 50; i++)
                 db.Departamentos.Add(new Departamento {Descricao = "Departamento " + i});
 
             db.SaveChanges();
-
         }
 
         static void TempoCommandoGeral()
@@ -646,16 +643,14 @@ namespace DominandoEFCore
             using var db = new ApplicationContext();
 
             db.Database.ExecuteSqlRaw("WAITFOR DELAY '00:00:07'  ;SELECT 1");
-
         }
-        
+
         static void TempoCommandoGeral2()
         {
             using var db = new ApplicationContext();
 
             db.Database.SetCommandTimeout(10);
             db.Database.ExecuteSqlRaw("WAITFOR DELAY '00:00:07'  ;SELECT 1");
-
         }
 
         static void ExecutarEstrategiaResiliencia()
@@ -669,14 +664,115 @@ namespace DominandoEFCore
 
                 db.Departamentos.Add(new Departamento {Descricao = "Departament transação"});
                 db.SaveChanges();
-                
+
                 transaction.Commit();
             });
         }
-        
-        
-        
+
         #endregion
+
+        #endregion // Concluidos
+
+
+        #region [ 08 - Modelo de dados ]
+
+        static void Collections()
+        {
+            using var db = new ApplicationContext();
+
+            RecriarBancoDeDados(db);
+        }
+
+        static void ProgagarDados()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var script = db.Database.GenerateCreateScript();
+            Console.WriteLine(script);
+        }
+
+        static void Esquema() => ScriptEmConsole();
+        static void ConversorDeValor() => ScriptEmConsole();
+
+        static void ConversorCustomizado()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            db.Conversores.Add(
+                new Conversor
+                {
+                    Status = Status.Devolvido
+                });
+
+            db.SaveChanges();
+
+            var conversorEmAnalise = db.Conversores
+                .AsNoTracking()
+                .FirstOrDefault(p => p.Status == Status.Analise);
+
+            var conversorDevolvido = db.Conversores
+                .AsNoTracking()
+                .FirstOrDefault(p => p.Status == Status.Devolvido);
+        }
+
+        static void ShadowProperty() =>
+            ScriptEmConsole();
+
+        static void TrabalhandoComPropriedadesDeSombra()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var departamento = new Departamento
+            {
+                Descricao = "Departamento Propriedade de sombra"
+            };
+
+            db.Departamentos.Add(departamento);
+
+            db.Entry(departamento).Property("UltimaAtualizacao").CurrentValue = DateTime.Now;
+
+            db.SaveChanges();
+
+            var departamentos = db.Departamentos
+                .Where(p => EF.Property<DateTime>(p, "UltimaAtualizacao") < DateTime.Now)
+                .ToArray();
+            Console.WriteLine(departamento.Descricao);
+        }
+
+        // Muito bom
+        static void TiposDePropriedades()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var cliente = new Cliente
+            {
+                Nome = "Fulano de tal",
+
+                Telefone = "(11) 98765-4321",
+                Endereco = new Endereco {Bairro = "Centro", Cidade = "São Paulo"}
+            };
+
+            db.Clientes.Add(cliente);
+
+            db.SaveChanges();
+
+            var clientes = db.Clientes
+                .AsNoTracking()
+                .ToList();
+
+            var options = new System.Text.Json.JsonSerializerOptions {WriteIndented = true};
+            clientes.ForEach(cli =>
+            {
+                var json = System.Text.Json.JsonSerializer.Serialize(cli, options);
+                Console.WriteLine(json);
+            });
+        }
         
+
+        #endregion
     }
 }

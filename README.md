@@ -126,3 +126,25 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.infraestrutura]:howto/02-mastering/07-infraestrutura.md
+
+## [Section 8 - Modelo de dados ][level02.modelo-de-dados]
+
+* 1 - Colletions
+* 2 - Sequências
+* 3 - Índices
+* 4 - Propagação de dados
+* 5 - Esquemas
+* 6 - Conversor de valores
+* 7 - Criar um conversor de valor customizado
+* 8 - Propriedades de sombra
+* 9 - Owned Types
+* 10 - Relacionamento 1 x 1
+* 11 - Relacionamento 1 x N
+* 12 - Relacionamento N x N
+* 13 - Campo de apoio (Backing field)
+* 14 - TPH e TPT
+* 15 - Sacola de propriedades (Property Bags)
+
+
+
+[level02.modelo-de-dados]:howto/02-mastering/08-modelo-de-dados.md
