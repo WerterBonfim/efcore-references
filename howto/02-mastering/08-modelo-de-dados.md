@@ -1,4 +1,4 @@
-## Modelo de dados
+# Modelo de dados
 
 * 1 - Colletions
 * 2 - Sequências
@@ -16,7 +16,7 @@
 * 14 - TPH e TPT
 * 15 - Sacola de propriedades (Property Bags)
 
-### 1 - Colletions
+## 1 - Colletions
 
 Adicionado na versão 5.0
 
@@ -32,7 +32,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 ```
 
 
-### 2 - Sequências
+## 2 - Sequências
 ```c#
 protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
@@ -50,7 +50,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 }
 ```
 
-### 3 - Índices
+## 3 - Índices
 ```c#
 protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
@@ -66,7 +66,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 ```
 
 
-### 4 - Propagação de dados
+## 4 - Propagação de dados
 ```c#
 modelBuilder.Entity<Estado>().HasData(new[]
 {
@@ -75,14 +75,14 @@ modelBuilder.Entity<Estado>().HasData(new[]
 });
 ```
 
-### 5 - Esquemas
+## 5 - Esquemas
 ```c#
 modelBuilder.HasDefaultSchema("cadastros");
 modelBuilder.Entity<Estado>().ToTable("Estados", "SegundoEsquema");
 ```
 
 
-### 6 - Conversor de valores
+## 6 - Conversor de valores
 ```c#
 var conversao =
         new ValueConverter<Versao, string>(p =>
@@ -101,7 +101,7 @@ var conversao =
 ```
 
 
-### 7 - Criar um conversor de valor customizado
+## 7 - Criar um conversor de valor customizado
 ```c#
 
 public class Conversor
@@ -155,7 +155,7 @@ WHERE [c].[Status] = N'D'
 
 ```
 
-### 8 - Propriedades de sombra
+## 8 - Propriedades de sombra
 ```c#
 public class Funcionario
 {    
@@ -188,7 +188,7 @@ var departamentos = db.Departamentos
 Console.WriteLine(departamento.Descricao);
 ```
 
-### 9 - Owned Types - [IMPORTANTE]
+## 9 - Owned Types - [IMPORTANTE]
 ```c#
 
 public class Cliente
@@ -266,44 +266,151 @@ Resultado:
 [OwnsOne-Propriedade]: imgs/OwnsOne-Propriedade.png
 [OwnsOne-table-split]: imgs/OwnsOne-table-split.png
 
-### 10 - Relacionamento 1 x 1
+## 10 - Relacionamento 1 x 1
+
+Um estado é governado por apenas um governador.
+E um governandor governa apenas um estado.
+
+```c#
+public void Configure(EntityTypeBuilder<Estado> builder)
+{
+    builder
+        .HasOne(p => p.Governador)
+        .WithOne(p => p.Estado)
+        .HasForeignKey<Governador>(p => p.EstadoId);
+
+    // Auto Include 
+    builder.Navigation(p => p.Governador)
+        .AutoInclude();
+}
+
+// Main
+ var estados = db.Estados
+    .AsNoTracking()
+    .ToList();
+
+    estados.ForEach(x =>
+    {
+        Console.WriteLine($"Estado: {x.Nome}, Governador: {x.Governador.Nome}");
+    });
+```
+
+## 11 - Relacionamento 1 x N
+
+
+
+### Configuração de propriedade de navegação única:
+
+```C#
+
+// Model 
+public class Estado
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+
+    public Governador Governador { get; set; }
+
+    // Configuração de propriedade de navegação única:
+    // Não a uma propriedade Estado na classe Cidade
+    public ICollection<Cidade> Cidades { get; } = new List<Cidade>();
+}
+
+// Model sem a propriedade de navegação
+public class Cidade
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+}
+
+// IEntityTypeConfiguration
+builder
+    .HasMany(p => p.Cidades)
+    .WithOne(); // O EFCore é capaz de fazer o relacionamento
+
+
+```
+Query gerada pelo EF:
+Por default ele define On Delete no action
+
+
+![foto3][OneToMany-NavegacaoUnica]
+
+
+
+### Propriedades de navegação:
+
+```C#
+
+public class Estado
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+
+    public Governador Governador { get; set; }
+    
+    public ICollection<Cidade> Cidades { get; } = new List<Cidade>();
+}
+
+public class Cidade
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+
+    public int EstadoId { get; set; }
+    public Estado Estado { get; set; }
+}
+
+
+// IEntityTypeConfiguration
+builder
+    .HasMany(p => p.Cidades)
+    .WithOne(x => x.Estado);
+    
+    // Mudando o comportamento 
+    //.OnDelete(DeleteBehavior.Restrict)
+    // Permite inserir uma cidade sem precisar
+    // ter um Estado atribuido
+    //.IsRequired(false)
+    
+
+
+
+
+```
+
+Query gerada pelo EF: Por default ele gera um DELETE CASCADE
+![foto4][OneToMany-ComNavegacao]
+
+
+[OneToMany-NavegacaoUnica]: imgs/OneToMany-Navegacao-Unica.png
+[OneToMany-ComNavegacao]: imgs/OneToMany-Com-Navegacao.png
+
+## 12 - Relacionamento N x N
 ```
 ```
 
 ```
 ```
 
-### 11 - Relacionamento 1 x N
+## 13 - Campo de apoio (Backing field)
 ```
 ```
 
 ```
 ```
 
-### 12 - Relacionamento N x N
+## 14 - TPH e TPT
 ```
 ```
 
 ```
 ```
 
-### 13 - Campo de apoio (Backing field)
+## 15 - Sacola de propriedades (Property Bags)
 ```
 ```
 
 ```
 ```
 
-### 14 - TPH e TPT
-```
-```
-
-```
-```
-
-### 15 - Sacola de propriedades (Property Bags)
-```
-```
-
-```
-```
