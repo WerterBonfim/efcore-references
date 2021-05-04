@@ -73,7 +73,9 @@ namespace DominandoEFCore
             //ShadowProperty();
             //TrabalhandoComPropriedadesDeSombra();
             // Muito importante, muito bom
-            TiposDePropriedades();
+            //TiposDePropriedades();
+            //Relacionamento1Para1();
+            Relacionamento1ParaMuitos();
         }
 
         #region [ Helpers ]
@@ -771,8 +773,63 @@ namespace DominandoEFCore
                 Console.WriteLine(json);
             });
         }
-        
 
+        static void Relacionamento1Para1()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var estado = new Estado
+            {
+                Nome = "São Paulo",
+                Governador = new Governador {Nome = "Werter Bonfim"}
+            };
+
+            db.Estados.Add(estado);
+
+            db.SaveChanges();
+
+            var estados = db.Estados
+                .AsNoTracking()
+                .ToList();
+            
+            estados.ForEach(x =>
+            {
+                Console.WriteLine($"Estado: {x.Nome}, Governador: {x.Governador.Nome}");
+            });
+        }
+
+        static void Relacionamento1ParaMuitos()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var estado = new Estado
+            {
+                Nome = "São Paulo",
+                Governador = new Governador {Nome = "Werter Bonfim"}
+            };
+            
+            estado.Cidades.Add(new Cidade{ Nome = "Mogi das Cruzes"});
+            db.Estados.Add(estado);
+
+            db.SaveChanges();
+
+            var estados = db.Estados.ToList();
+            estados[0].Cidades.Add(new Cidade{ Nome = "Campinas"});
+
+            db.SaveChanges();
+
+            
+            foreach (var est in db.Estados.Include(x => x.Cidades).AsNoTracking())
+            {
+                Console.WriteLine($"Estado {est.Nome}, Governador: {est.Governador.Nome}");
+                foreach (var cidade in est.Cidades)
+                    Console.WriteLine($"\t Cidade: {cidade.Nome}");
+            }
+
+        }
+        
         #endregion
     }
 }

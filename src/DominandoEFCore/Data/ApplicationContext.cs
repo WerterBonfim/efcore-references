@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Reflection;
+using DominandoEFCore.Configurations;
 using DominandoEFCore.Conversores;
 using DominandoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -34,16 +36,9 @@ namespace DominandoEFCore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cliente>(p =>
-            {
-                p.OwnsOne(x => x.Endereco, end =>
-                {
-                    end.Property(p => p.Bairro).HasColumnName("Bairro");
-
-                    // Table Split
-                    end.ToTable("Endereco");
-                });
-            });
+            //modelBuilder.ApplyConfiguration(new ClienteConfiguration());
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
 
         }
     }
