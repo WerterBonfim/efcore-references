@@ -19,6 +19,9 @@ namespace DominandoEFCore.Data
         public DbSet<Conversor> Conversores { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
 
+        public DbSet<Filme> Filmes { get; set; }
+        public DbSet<Ator> Atores { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var stringDeConexao = "Server=localhost,1433;" +

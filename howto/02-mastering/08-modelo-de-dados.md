@@ -323,7 +323,7 @@ public class Cidade
     public string Nome { get; set; }
 }
 
-// IEntityTypeConfiguration
+// EstadoConfiguration IEntityTypeConfiguration
 builder
     .HasMany(p => p.Cidades)
     .WithOne(); // O EFCore é capaz de fazer o relacionamento
@@ -387,27 +387,85 @@ Query gerada pelo EF: Por default ele gera um DELETE CASCADE
 [OneToMany-ComNavegacao]: imgs/OneToMany-Com-Navegacao.png
 
 ## 12 - Relacionamento N x N
+```C#
+    public class Ator
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        // Obrigatório em relacionamento NxN para o EF fazer a descoberta (discovery)
+        public ICollection<Filme> Filmes { get; } = new List<Filme>();
+    }
+
+    public class Filme
+    {
+        public int Id { get; set; }
+        public string Descricao { get; set; }
+        // Obrigatório em relacionamento NxN para o EF fazer a descoberta (discovery)
+        public ICollection<Ator> Atores { get; } = new List<Ator>();
+    }
+
+
+    // Ou via FluentAPI
+
+    public class AtorFilmeConfiguration : IEntityTypeConfiguration<Ator>
+    {
+        public void Configure(EntityTypeBuilder<Ator> builder)
+        {
+            builder
+                .HasMany(p => p.Filmes)
+                .WithMany(p => p.Atores)
+                // Opcional para definir o nome da tabela
+                .UsingEntity(p => p.ToTable("AtoresFilmes"));
+        }
+    }
+
+```
+
+## 13 - Customizando muitos-para-muitos
+```C#
+public class AtorFilmeConfiguration : IEntityTypeConfiguration<Ator>
+{
+    public void Configure(EntityTypeBuilder<Ator> builder)
+    {
+
+        builder
+            .HasMany(p => p.Filmes)
+            .WithMany(p => p.Atores)
+            .UsingEntity<Dictionary<string, object>>("filmesAtores",
+                p => p.HasOne<Filme>().WithMany().HasForeignKey("FilmeId"),
+                p => p.HasOne<Ator>().WithMany().HasForeignKey("AtorId"),
+                // Shadow Property
+                p =>
+                {
+                    p.Property<DateTime>("CadastradoEm").HasDefaultValueSql("GETDATE()");
+                }
+            );
+    }
+}
+```
+
+## 14 - Campo de apoio (Backing field)
 ```
 ```
 
 ```
 ```
 
-## 13 - Campo de apoio (Backing field)
+## 15 - Configurando modelo de dados com TPH 
 ```
 ```
 
 ```
 ```
 
-## 14 - TPH e TPT
+## 16 - Configurando modelo de dados do TPT
 ```
 ```
 
 ```
 ```
 
-## 15 - Sacola de propriedades (Property Bags)
+## 17 - Sacola de propriedades (Property Bags)
 ```
 ```
 

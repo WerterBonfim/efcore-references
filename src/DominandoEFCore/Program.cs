@@ -74,8 +74,10 @@ namespace DominandoEFCore
             //TrabalhandoComPropriedadesDeSombra();
             // Muito importante, muito bom
             //TiposDePropriedades();
+            
             //Relacionamento1Para1();
-            Relacionamento1ParaMuitos();
+            //Relacionamento1ParaMuitos();
+            RelacionamentoMuitosParaMuitos();
         }
 
         #region [ Helpers ]
@@ -827,6 +829,45 @@ namespace DominandoEFCore
                 foreach (var cidade in est.Cidades)
                     Console.WriteLine($"\t Cidade: {cidade.Nome}");
             }
+
+        }
+
+        static void RelacionamentoMuitosParaMuitos()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var ator1 = new Ator {Nome = "Werter"};
+            var ator2 = new Ator {Nome = "Fulano"};
+            var ator3 = new Ator {Nome = "Beltrano"};
+
+            var filme1 = new Filme {Descricao = "Os 7 samurais"};
+            var filme2 = new Filme {Descricao = "O ultimo samurai"};
+            var filme3 = new Filme {Descricao = "Zatoichi"};
+            
+            ator1.Filmes.Add(filme1);
+            ator1.Filmes.Add(filme2);
+            
+            ator2.Filmes.Add(filme1);
+            
+            filme3.Atores.Add(ator1);
+            filme3.Atores.Add(ator2);
+            filme3.Atores.Add(ator3);
+            
+            db.AddRange(ator1, ator2, filme3);
+
+            db.SaveChanges();
+
+            foreach (var ator in db.Atores.Include(x => x.Filmes))
+            {
+                Console.WriteLine($"Ator: {ator.Nome}");
+
+                foreach (var filme in ator.Filmes)
+                {
+                    Console.WriteLine($"\tFilme: {filme.Descricao}");
+                }
+            }
+
 
         }
         
