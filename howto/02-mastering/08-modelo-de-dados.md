@@ -445,18 +445,106 @@ public class AtorFilmeConfiguration : IEntityTypeConfiguration<Ator>
 ```
 
 ## 14 - Campo de apoio (Backing field)
-```
-```
+```C#
+public class Documento
+{
+    private string _cpf;
+
+    public int Id { get; set; }
+
+    public void DefinirCpf(string cpf)
+    {
+        // Validações
+        _cpf = cpf;
+    }
+
+    public string Cpf => _cpf;
+    // Ou
+    //public string GetCpf() => _cpf;
+}
+
+// IEntityTypeConfiguration
+ builder
+    .Property(x => x.Cpf)
+    .HasField("_cpf");
+
+
+builder
+    .Property("_cpf")
+    .HasColumnName("Cpf")
+    .HasMaxLength(11);
+    //.HasField("_cpf");    
+
 
 ```
+
+## 15 - Configurando modelo de dados com TPH (Tabela por hierarquia)
+
+O EF Core cria um coluna chamada descriminator
+
+```C#
+public class Pessoa
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+
+    public override string ToString()
+    {
+        return $"Id:{Id} Nome: {Nome}";
+    }
+}
+
+public class Instrutor : Pessoa
+{
+    public DateTime Desde { get; set; }
+    public string Tecnologia { get; set; }
+
+    public override string ToString()
+    {
+        return base.ToString() + $" Tecnologia: {Tecnologia} Desde: {Desde.ToString()}";
+    }
+}
+
+public class Aluno : Pessoa
+{
+    public int Idade { get; set; }
+    public DateTime DataContrato { get; set; }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"Idade: {Idade} Data contrato: {DataContrato.ToString()}";
+    }
+}
 ```
 
-## 15 - Configurando modelo de dados com TPH 
-```
-```
+Com as entidades modelada desta forma, o EF criar as tabelas da seguinte forma:
+![foto5][TPH]
+
+Customizando:
+
+```C#
+
+public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
+{
+    public void Configure(EntityTypeBuilder<Pessoa> builder)
+    {
+        builder
+            .ToTable("Pessoas")
+            .HasDiscriminator<int>("TipoPessoa")
+            .HasValue<Pessoa>(1)
+            .HasValue<Instrutor>(2)
+            .HasValue<Aluno>(8);
+    }
+}
+
+
+// Formas de efetuar a consulta
+var alunos = db.Alunos.AsNoTracking().ToArray();
+var alunos = db.Pessoas.OfType<Aluno>().AsNoTracking().ToArray();
 
 ```
-```
+
+[TPH]: imgs/TPH.png
 
 ## 16 - Configurando modelo de dados do TPT
 ```

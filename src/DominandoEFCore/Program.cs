@@ -77,7 +77,10 @@ namespace DominandoEFCore
             
             //Relacionamento1Para1();
             //Relacionamento1ParaMuitos();
-            RelacionamentoMuitosParaMuitos();
+            //RelacionamentoMuitosParaMuitos();
+
+            //CampoDeApoio();
+            ExemploTPH();
         }
 
         #region [ Helpers ]
@@ -870,6 +873,55 @@ namespace DominandoEFCore
 
 
         }
+
+        static void CampoDeApoio()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var documento = new Documento();
+            documento.DefinirCpf("12345678900");
+
+            db.Documentos.Add(documento);
+            db.SaveChanges();
+
+            foreach (var doc in db.Documentos.AsNoTracking())
+            {
+                Console.WriteLine($"CPF -> {doc.GetCpf()}");
+            }
+        }
+
+        static void ExemploTPH()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var pessoa = new Pessoa {Nome = "Fulano de tal"};
+            var instrutor = new Instrutor {Nome = "Werter Bonfim", Tecnologia = "C#", Desde = DateTime.Now};
+            var aluno = new Aluno {Nome = "Ciclano de tal", Idade = 23, DataContrato = DateTime.Now};
+            
+            db.AddRange(pessoa, instrutor, aluno);
+            db.SaveChanges();
+
+            var pessoas = db.Pessoas.AsNoTracking().ToArray();
+            var instrutores = db.Instrutores.AsNoTracking().ToArray();
+            //var alunos = db.Alunos.AsNoTracking().ToArray();
+            var alunos = db.Pessoas.OfType<Aluno>().AsNoTracking().ToArray();
+
+            Console.WriteLine($"Pessoas ================================================");
+            foreach( var x in pessoas)
+                Console.WriteLine(x.ToString());
+            
+            Console.WriteLine($"Instrutores ================================================");
+            foreach( var x in instrutores)
+                Console.WriteLine(x.ToString());
+
+            Console.WriteLine($"Alunos ================================================");
+            foreach( var x in alunos)
+                Console.WriteLine(x.ToString());
+
+        }
+        
         
         #endregion
     }
