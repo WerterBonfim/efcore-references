@@ -546,12 +546,30 @@ var alunos = db.Pessoas.OfType<Aluno>().AsNoTracking().ToArray();
 
 [TPH]: imgs/TPH.png
 
-## 16 - Configurando modelo de dados do TPT
-```
-```
+## 16 - Configurando modelo de dados do TPT (Tabela por tipo)
+
+Adicionado na versão 5.0
+
+Com essa configuração é criada um tabela para cada Tipo/Entidade
+
+```C#
+public void Configure(EntityTypeBuilder<Pessoa> builder)
+{
+    builder.ToTable("Pessoas");    
+}
+
+public void Configure(EntityTypeBuilder<Instrutor> builder)
+{
+    builder.ToTable("Instrutores");
+}
+
+public void Configure(EntityTypeBuilder<Aluno> builder)
+{
+    builder.ToTable("Alunos");
+}
 
 ```
-```
+
 
 ## 17 - Sacola de propriedades (Property Bags)
 ```

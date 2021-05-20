@@ -80,7 +80,7 @@ namespace DominandoEFCore
             //RelacionamentoMuitosParaMuitos();
 
             //CampoDeApoio();
-            ExemploTPH();
+            ExemploTPH_TPT();
         }
 
         #region [ Helpers ]
@@ -891,7 +891,7 @@ namespace DominandoEFCore
             }
         }
 
-        static void ExemploTPH()
+        static void ExemploTPH_TPT()
         {
             using var db = new ApplicationContext();
             RecriarBancoDeDados(db);
@@ -905,8 +905,8 @@ namespace DominandoEFCore
 
             var pessoas = db.Pessoas.AsNoTracking().ToArray();
             var instrutores = db.Instrutores.AsNoTracking().ToArray();
-            //var alunos = db.Alunos.AsNoTracking().ToArray();
-            var alunos = db.Pessoas.OfType<Aluno>().AsNoTracking().ToArray();
+            var alunos = db.Alunos.AsNoTracking().ToArray();
+            //var alunos = db.Pessoas.OfType<Aluno>().AsNoTracking().ToArray();
 
             Console.WriteLine($"Pessoas ================================================");
             foreach( var x in pessoas)
