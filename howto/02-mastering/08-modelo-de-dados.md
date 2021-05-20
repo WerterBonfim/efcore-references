@@ -572,9 +572,26 @@ public void Configure(EntityTypeBuilder<Aluno> builder)
 
 
 ## 17 - Sacola de propriedades (Property Bags)
-```
-```
+```c#
+
+Adicionado na versão 5.0
+
+public DbSet<Dictionary<string, object>> Configuracoes => Set<Dictionary<string, object>>("Configuracoes");
+
+
+modelBuilder.SharedTypeEntity<Dictionary<string, object>>("Configuracoes", b =>
+{
+    b.Property<int>("Id");
+
+    b.Property<string>("Chave")
+        .HasColumnType("varchar(40)")
+        .IsRequired();
+    
+    b.Property<string>("Valor")
+        .HasColumnType("varchar(255)")
+        .IsRequired();
+});
 
 ```
-```
+
 

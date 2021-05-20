@@ -74,13 +74,14 @@ namespace DominandoEFCore
             //TrabalhandoComPropriedadesDeSombra();
             // Muito importante, muito bom
             //TiposDePropriedades();
-            
+
             //Relacionamento1Para1();
             //Relacionamento1ParaMuitos();
             //RelacionamentoMuitosParaMuitos();
 
             //CampoDeApoio();
-            ExemploTPH_TPT();
+            //ExemploTPH_TPT();
+            SacolaDePropriedades();
         }
 
         #region [ Helpers ]
@@ -797,11 +798,8 @@ namespace DominandoEFCore
             var estados = db.Estados
                 .AsNoTracking()
                 .ToList();
-            
-            estados.ForEach(x =>
-            {
-                Console.WriteLine($"Estado: {x.Nome}, Governador: {x.Governador.Nome}");
-            });
+
+            estados.ForEach(x => { Console.WriteLine($"Estado: {x.Nome}, Governador: {x.Governador.Nome}"); });
         }
 
         static void Relacionamento1ParaMuitos()
@@ -814,25 +812,24 @@ namespace DominandoEFCore
                 Nome = "São Paulo",
                 Governador = new Governador {Nome = "Werter Bonfim"}
             };
-            
-            estado.Cidades.Add(new Cidade{ Nome = "Mogi das Cruzes"});
+
+            estado.Cidades.Add(new Cidade {Nome = "Mogi das Cruzes"});
             db.Estados.Add(estado);
 
             db.SaveChanges();
 
             var estados = db.Estados.ToList();
-            estados[0].Cidades.Add(new Cidade{ Nome = "Campinas"});
+            estados[0].Cidades.Add(new Cidade {Nome = "Campinas"});
 
             db.SaveChanges();
 
-            
+
             foreach (var est in db.Estados.Include(x => x.Cidades).AsNoTracking())
             {
                 Console.WriteLine($"Estado {est.Nome}, Governador: {est.Governador.Nome}");
                 foreach (var cidade in est.Cidades)
                     Console.WriteLine($"\t Cidade: {cidade.Nome}");
             }
-
         }
 
         static void RelacionamentoMuitosParaMuitos()
@@ -847,16 +844,16 @@ namespace DominandoEFCore
             var filme1 = new Filme {Descricao = "Os 7 samurais"};
             var filme2 = new Filme {Descricao = "O ultimo samurai"};
             var filme3 = new Filme {Descricao = "Zatoichi"};
-            
+
             ator1.Filmes.Add(filme1);
             ator1.Filmes.Add(filme2);
-            
+
             ator2.Filmes.Add(filme1);
-            
+
             filme3.Atores.Add(ator1);
             filme3.Atores.Add(ator2);
             filme3.Atores.Add(ator3);
-            
+
             db.AddRange(ator1, ator2, filme3);
 
             db.SaveChanges();
@@ -870,8 +867,6 @@ namespace DominandoEFCore
                     Console.WriteLine($"\tFilme: {filme.Descricao}");
                 }
             }
-
-
         }
 
         static void CampoDeApoio()
@@ -899,7 +894,7 @@ namespace DominandoEFCore
             var pessoa = new Pessoa {Nome = "Fulano de tal"};
             var instrutor = new Instrutor {Nome = "Werter Bonfim", Tecnologia = "C#", Desde = DateTime.Now};
             var aluno = new Aluno {Nome = "Ciclano de tal", Idade = 23, DataContrato = DateTime.Now};
-            
+
             db.AddRange(pessoa, instrutor, aluno);
             db.SaveChanges();
 
@@ -909,20 +904,44 @@ namespace DominandoEFCore
             //var alunos = db.Pessoas.OfType<Aluno>().AsNoTracking().ToArray();
 
             Console.WriteLine($"Pessoas ================================================");
-            foreach( var x in pessoas)
+            foreach (var x in pessoas)
                 Console.WriteLine(x.ToString());
-            
+
             Console.WriteLine($"Instrutores ================================================");
-            foreach( var x in instrutores)
+            foreach (var x in instrutores)
                 Console.WriteLine(x.ToString());
 
             Console.WriteLine($"Alunos ================================================");
-            foreach( var x in alunos)
+            foreach (var x in alunos)
                 Console.WriteLine(x.ToString());
+        }
+
+        static void SacolaDePropriedades()
+        {
+            using var db = new ApplicationContext();
+            RecriarBancoDeDados(db);
+
+            var configuracao = new Dictionary<string, object>
+            {
+                ["Chave"] = "SenhaBancoDeDados",
+                ["Valor"] = Guid.NewGuid().ToString()
+            };
+
+            db.Configuracoes.Add(configuracao);
+            db.SaveChanges();
+
+            var configuracoes = db
+                .Configuracoes
+                .AsNoTracking()
+                .Where(p => p["Chave"] == "SenhaBancoDeDados")
+                .ToArray();
+
+            foreach (var c in configuracoes)
+                Console.WriteLine($"Chave: {c["Chave"]} - Valor: {c["Valor"]}");
+            
 
         }
-        
-        
+
         #endregion
     }
 }
