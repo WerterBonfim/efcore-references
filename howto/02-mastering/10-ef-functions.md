@@ -28,11 +28,16 @@ var dados = db.Funcoes
 ```
 
 ## 2 - Funções Like
-```
+```C#
+var dados = db
+    .Funcoes
+    .AsNoTracking()
+    .Where(x => EF.Functions.Like(x.Descricao1, "B[ao]%"))
+    .Select(x => x.Descricao1)
+    .ToArray();
 ```
 
-```
-```
+
 ## 3 - Funções DataLenght
 ```
 ```

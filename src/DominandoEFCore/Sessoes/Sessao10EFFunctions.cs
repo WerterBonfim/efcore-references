@@ -10,7 +10,8 @@ namespace DominandoEFCore.Sessoes
     {
         public static void ExecutarExemplos()
         {
-            FuncoesDeDatas();
+            //FuncoesDeDatas();
+            FuncaoLike();
         }
 
         static void FuncoesDeDatas()
@@ -60,12 +61,32 @@ namespace DominandoEFCore.Sessoes
                 {
                     Data1 = DateTime.Now.AddDays(3),
                     Data2 = "XX21-05-20",
-                    Descricao1 = "Bala 3",
-                    Descricao2 = "Bala 3"
+                    Descricao1 = "Bola 3",
+                    Descricao2 = "Biruta 3"
                 }
             );
 
             db.SaveChanges();
         }
+
+        static void FuncaoLike()
+        {
+            using var db = new ApplicationContext();
+            ApagarERecriarBancoDeDados(db);
+
+            var dados = db
+                .Funcoes
+                .AsNoTracking()
+                .Where(x => EF.Functions.Like(x.Descricao1, "B[ao]%"))
+                .Select(x => x.Descricao1)
+                .ToArray();
+
+            Console.WriteLine("Resultado: ");
+            foreach (var descricao in dados)
+                Console.WriteLine(descricao);
+            
+
+        }
+        
     }
 }
