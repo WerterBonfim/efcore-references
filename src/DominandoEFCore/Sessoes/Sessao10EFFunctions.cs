@@ -13,7 +13,8 @@ namespace DominandoEFCore.Sessoes
             //FuncoesDeDatas();
             //FuncaoLike();
             //FuncaoDataLength();
-            FuncaoProperty();
+            //FuncaoProperty();
+            FuncaoCollate();
         }
 
         static void FuncoesDeDatas()
@@ -50,21 +51,21 @@ namespace DominandoEFCore.Sessoes
                     Data1 = DateTime.Now.AddDays(2),
                     Data2 = "2021-05-20",
                     Descricao1 = "Bala 1",
-                    Descricao2 = "Bala 1"
+                    Descricao2 = "Tela"
                 },
                 new Funcao
                 {
                     Data1 = DateTime.Now.AddDays(1),
                     Data2 = "XX21-05-01",
                     Descricao1 = "Bala 2",
-                    Descricao2 = "Bala 2"
+                    Descricao2 = "Bola 2"
                 },
                 new Funcao
                 {
                     Data1 = DateTime.Now.AddDays(3),
                     Data2 = "XX21-05-20",
-                    Descricao1 = "Bola 3",
-                    Descricao2 = "Biruta 3"
+                    Descricao1 = "Biruta 3",
+                    Descricao2 = "Tela"
                 }
             );
 
@@ -133,6 +134,28 @@ namespace DominandoEFCore.Sessoes
 
             Console.WriteLine("Resultado:");
             Console.WriteLine(propriedadeSombra);
+        }
+
+        static void FuncaoCollate()
+        {
+            using var db = new ApplicationContext();
+            ApagarERecriarBancoDeDados(db);
+            
+            var caseSensitive = "SQL_Latin1_General_CP1_CS_AS";
+            var caseInsensitive = "SQL_Latin1_General_CP1_CI_AS";
+
+            var consultaCS = db
+                .Funcoes
+                .FirstOrDefault(x => EF.Functions.Collate(x.Descricao2, caseSensitive) == "tela");
+            
+            var consultaCI = db
+                .Funcoes
+                .FirstOrDefault(x => EF.Functions.Collate(x.Descricao2, caseInsensitive) == "tela");
+
+            Console.WriteLine($"Consulta 1 CS: {consultaCS?.Descricao2}");
+            Console.WriteLine($"Consulta 2 CI: {consultaCI?.Descricao2}");
+
+
         }
         
     }

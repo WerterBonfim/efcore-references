@@ -83,8 +83,20 @@ Console.WriteLine(propriedadeSombra);
 ```
 
 ## 5 - Funções Collate
-```
-```
+```C#
+var caseSensitive = "SQL_Latin1_General_CP1_CS_AS";
+var caseInsensitive = "SQL_Latin1_General_CP1_CI_AS";
 
-```
+var consultaCS = db
+    .Funcoes
+    .FirstOrDefault(x => EF.Functions.Collate(x.Descricao2, caseSensitive) == "tela");
+
+var consultaCI = db
+    .Funcoes
+    .FirstOrDefault(x => EF.Functions.Collate(x.Descricao2, caseInsensitive) == "tela");
+
+// Output:
+// Consulta 1 CS: 
+// Consulta 2 CI: Tela
+
 ```
