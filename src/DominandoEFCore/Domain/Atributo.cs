@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,6 +41,14 @@ namespace DominandoEFCore.Domain
         [InverseProperty("AeroportoChegada")]
         public ICollection<Voo> VoosDeChegada { get; set; }
     }
+
+    [Keyless]
+    public class RelatorioFinanceiro
+    {
+        public string Descricao { get; set; }
+        public decimal Total { get; set; }
+        public DateTime Data { get; set; }
+    } 
 
     [NotMapped]
     public class Voo

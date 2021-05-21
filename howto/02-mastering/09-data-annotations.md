@@ -197,9 +197,22 @@ public class Documento
 
 
 ## 8 - Atributo Keyless
-```
-```
 
-```
+Configura uma entidade que não possui um achave primaria no 
+seu banco de dados. Exemplos: Views, tabelas de projeções.
+
+Essas entidades não são rastreadas pelo EF Core, caso você tente
+inserir um registro no banco de dados, o EF ira gerar uma Exception
+pois ele não adiciona registros em uma tabela sem ID
+
+```C#
+[Keyless]
+public class RelatorioFinanceiro
+{
+    public string Descricao { get; set; }
+    public decimal Total { get; set; }
+    public DateTime Data { get; set; }
+} 
+
 ```
 
