@@ -1,5 +1,6 @@
 using System;
 using DominandoEFCore.Data;
+using DominandoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DominandoEFCore.Sessoes
@@ -14,8 +15,18 @@ namespace DominandoEFCore.Sessoes
         static void Atributos()
         {
             using var db = new ApplicationContext();
-            var script = db.Database.GenerateCreateScript();
-            Console.WriteLine(script);
+            Helpers.RecriarBancoDeDados(db);
+
+            Console.WriteLine(db.Database.GenerateCreateScript());
+
+            db.Atributos.Add(new Atributo
+            {
+                Descricao = "Exemplo",
+                Observacao = "Observação"
+            });
+
+            db.SaveChanges();
+
         }
     }
 }

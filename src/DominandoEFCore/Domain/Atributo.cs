@@ -13,7 +13,9 @@ namespace DominandoEFCore.Domain
         [Column("MinhaDescrição", TypeName = "VARCHAR(100)")]
         public string Descricao { get; set; }
         
-        [Required]
+        //[Required]
+        // O EF não irar incluir essa propriedade nas instruções de insert
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [MaxLength(255)]
         public string Observacao { get; set; }
         

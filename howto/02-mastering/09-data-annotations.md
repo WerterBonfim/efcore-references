@@ -78,20 +78,46 @@ public class Voo
 
     // Não ira criar esse tabela no banco de dados
     [NotMapped]
-    public class Voo
-    {
-        
-    }
+    public class Voo  { }
 
 ```
 
 ## 4 - Atributo Database Generated
-```
-```
 
-```
-```
+Uma coluna na tabela que é manipulada de outros meios, 
+você só quer ler esse dado e não alterá-lo. 
 
+```C#
+
+public class Atributo
+{
+    [Key] 
+    public int Id { get; set; }
+
+    [Column("MinhaDescrição", TypeName = "VARCHAR(100)")]
+    public string Descricao { get; set; }   
+    
+    // O EF não irar incluir essa propriedade nas instruções de insert
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    [MaxLength(255)]
+    public string Observacao { get; set; }
+    
+    
+}
+
+db.Atributos.Add(new Atributo
+{
+    Descricao = "Exemplo",
+    Observacao = "Observação"
+});
+
+db.SaveChanges();
+```
+Resultado do insert:
+
+![foto1][DatabaseGenerated]
+
+[DatabaseGenerated]:imgs/DatabaseGenerated.png
 ## 5 - Atributo Index
 ```
 ```
