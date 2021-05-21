@@ -145,6 +145,7 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 14 - TPH e TPT
 * 15 - Sacola de propriedades (Property Bags)
 
+[level02.modelo-de-dados]:howto/02-mastering/08-modelo-de-dados.md
 ## [ Section 9 - Atributos - Data Annotations ][level02.data-annotations]
 
 * 1 - Atributo Table
@@ -156,8 +157,15 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 7 - Atributo Backing Field
 * 8 - Atributo Keyless
 
-
-
-
-[level02.modelo-de-dados]:howto/02-mastering/08-modelo-de-dados.md
 [level02.data-annotations]:howto/02-mastering/09-data-annotations.md
+
+
+## [Section 10 - EF Functions ][level02.ef-functions]
+
+* 1 - Funções de datas
+* 2 - Funções Like
+* 3 - Funções DataLenght
+* 4 - Funções Property
+* 5 - Funções Collate
+
+[level02.ef-functions]:howto/02-mastering/10-ef-functions.md
