@@ -1,5 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/werter/.nuget/packages/microsoft.entityframeworkcore.relational/5.0.4/lib/netstandard2.1/Microsoft.EntityFrameworkCore.Relational.dll" /&gt;
+  &lt;Assembly Path="/home/werter/dotnet/shared/Microsoft.NETCore.App/5.0.6/System.ComponentModel.Annotations.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=ccbf3ea4_002D8b74_002D444d_002D953d_002Dfd17b8dcad33_0023CursoEFCore/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

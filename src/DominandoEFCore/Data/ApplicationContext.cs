@@ -30,6 +30,8 @@ namespace DominandoEFCore.Data
 
         public DbSet<Dictionary<string, object>> Configuracoes => Set<Dictionary<string, object>>("Configuracoes");
 
+        public DbSet<Atributo> Atributos { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var stringDeConexao = "Server=localhost,1433;" +
