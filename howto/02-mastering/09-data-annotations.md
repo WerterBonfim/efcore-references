@@ -118,11 +118,31 @@ Resultado do insert:
 ![foto1][DatabaseGenerated]
 
 [DatabaseGenerated]:imgs/DatabaseGenerated.png
+
+
 ## 5 - Atributo Index
-```
+
+
+
+```C#
+// O Atributo Index foi criado pela equipe do EF Core
+using Microsoft.EntityFrameworkCore;
+
+
+[Table("TabelaAtributos")]
+[Index(nameof(Descricao), nameof(Id), IsUnique = true)]
+public class Atributo
+{
+    [Key] 
+    public int Id { get; set; }
+
+    [Column("MinhaDescrição", TypeName = "VARCHAR(100)")]
+}
 ```
 
-```
+output:
+```text
+CREATE UNIQUE INDEX [IX_TabelaAtributos_MinhaDescrição_Id] ON [TabelaAtributos] ([MinhaDescrição], [Id]) WHERE [MinhaDescrição] IS NOT NULL;
 ```
 
 ## 6 - Atributo Comment
