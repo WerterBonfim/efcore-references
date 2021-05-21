@@ -146,18 +146,55 @@ CREATE UNIQUE INDEX [IX_TabelaAtributos_MinhaDescrição_Id] ON [TabelaAtributos
 ```
 
 ## 6 - Atributo Comment
-```
+```c#
+
+// O Atributo Comment foi criado pelo Rafael
+using Microsoft.EntityFrameworkCore;
+
+[Table("TabelaAtributos")]
+[Index(nameof(Descricao), nameof(Id), IsUnique = true)]
+[Comment("Meu comentario sobre minha tabela")]
+public class Atributo
+{
+    [Key] 
+    public int Id { get; set; }
+
+    [Column("MinhaDescrição", TypeName = "VARCHAR(100)")]
+    [Comment("Meu comentario sobre essa coluna")]
+    public string Descricao { get; set; }    
+    
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    [MaxLength(255)]
+    public string Observacao { get; set; }
+    
+    
+}
 ```
 
-```
+Resulado da criação:
+
+![foto2][AtributoComment]
+
+[AtributoComment]:imgs/Atributo-Comment.png
+
+## 7 - Atributo BackingField
+```c#
+public class Documento
+{
+    private string _cpf;
+
+    public int Id { get; set; }
+
+    public void DefinirCpf(string cpf)
+    {
+        // Validações        
+    }
+
+    [BackingField(nameof(_cpf))]
+    public string CPF => _cpf;    
+}
 ```
 
-## 7 - Atributo Backing Field
-```
-```
-
-```
-```
 
 ## 8 - Atributo Keyless
 ```

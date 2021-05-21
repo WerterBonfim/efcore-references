@@ -7,12 +7,14 @@ namespace DominandoEFCore.Domain
 {
     [Table("TabelaAtributos")]
     [Index(nameof(Descricao), nameof(Id), IsUnique = true)]
+    [Comment("Meu comentario sobre minha tabela")]
     public class Atributo
     {
         [Key] 
         public int Id { get; set; }
 
         [Column("MinhaDescrição", TypeName = "VARCHAR(100)")]
+        [Comment("Meu comentario sobre essa coluna")]
         public string Descricao { get; set; }
         
         //[Required]
