@@ -84,7 +84,8 @@ namespace DominandoEFCore
             //ExemploTPH_TPT();
             //SacolaDePropriedades();
             
-            Sessao09DataAnnotations.ExecutarExemplos();
+            //Sessao09DataAnnotations.ExecutarExemplos();
+            Sessao10EFFunctions.ExecutarExemplos();
         }
 
       

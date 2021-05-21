@@ -207,7 +207,7 @@ namespace DominandoEFCore.Sessoes
 
             foreach (var doc in db.Documentos.AsNoTracking())
             {
-                Console.WriteLine($"CPF -> {doc.GetCpf()}");
+                Console.WriteLine($"CPF -> {doc.CPF}");
             }
         }
 

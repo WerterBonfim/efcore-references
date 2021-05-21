@@ -34,6 +34,8 @@ namespace DominandoEFCore.Data
 
         public DbSet<Aeroporto> Aeroportos { get; set; }
 
+        public DbSet<Funcao> Funcoes { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var stringDeConexao = "Server=localhost,1433;" +
