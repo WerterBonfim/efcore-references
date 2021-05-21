@@ -61,18 +61,28 @@ public class Voo
     public Aeroporto AeroportoPartida { get; set; }
     public Aeroporto AeroportoChegada { get; set; }
 }
-
-
 ```
 
-```
-```
 
 ## 3 - Atributo NotMapped
-```
-```
+```C#
+ public class Aeroporto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
 
-```
+        // Não ira criar essa coluna na tabela
+        [NotMapped]
+        public string PropriedadeTeste { get; set; }        
+    }
+
+    // Não ira criar esse tabela no banco de dados
+    [NotMapped]
+    public class Voo
+    {
+        
+    }
+
 ```
 
 ## 4 - Atributo Database Generated
