@@ -63,11 +63,25 @@ Resultado:
 
 ```
 ## 4 - Funções Property
-```
+```C#
+// As propriedades de sombra não existe no tipo CLR da entidade Funcao.
+// As propriedade de sobra são somente associadas a cada registro se a  
+// consulta for rastreada
+
+var resultado = db
+    .Funcoes
+    //.AsNoTracking()
+    .FirstOrDefault(x => EF.Property<string>(x, "PropriedadeSombra") == "Teste");
+
+var propriedadeSombra = db
+    .Entry(resultado)
+    .Property<string>("PropriedadeSombra")
+    .CurrentValue;
+
+Console.WriteLine("Resultado:");
+Console.WriteLine(propriedadeSombra);
 ```
 
-```
-```
 ## 5 - Funções Collate
 ```
 ```

@@ -70,6 +70,15 @@ namespace DominandoEFCore.Data
                     .IsRequired();
             });
 
+
+            modelBuilder
+                .Entity<Funcao>(c =>
+                {
+                    c.Property<string>("PropriedadeSombra")
+                        .HasColumnType("VARCHAR(100)")
+                        .HasDefaultValueSql("'Teste'");
+                });
+
         }
     }
 }
