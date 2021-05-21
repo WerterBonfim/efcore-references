@@ -39,10 +39,28 @@ var dados = db
 
 
 ## 3 - Funções DataLenght
-```
+
+Função para obter quantos bytes foram alocados no banco de dados.
+
+```c#
+ var resultado = db
+        .Funcoes
+        .AsNoTracking()
+        .Select(x => new
+        {
+            TotalBytesCampoData = EF.Functions.DataLength(x.Data1),
+            TotalBytes1 = EF.Functions.DataLength(x.Descricao1),
+            TotalBytes2 = EF.Functions.DataLength(x.Descricao2),
+            Total1 = x.Descricao1.Length,
+            Total2 = x.Descricao2.Length
+        })
+        .FirstOrDefault();
 ```
 
-```
+```text
+Resultado:
+{ TotalBytesCampoData = 8, TotalBytes1 = 12, TotalBytes2 = 6, Total1 = 6, Total2 = 6 }
+
 ```
 ## 4 - Funções Property
 ```

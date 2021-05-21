@@ -11,7 +11,8 @@ namespace DominandoEFCore.Sessoes
         public static void ExecutarExemplos()
         {
             //FuncoesDeDatas();
-            FuncaoLike();
+            //FuncaoLike();
+            FuncaoDataLength();
         }
 
         static void FuncoesDeDatas()
@@ -86,6 +87,28 @@ namespace DominandoEFCore.Sessoes
                 Console.WriteLine(descricao);
             
 
+        }
+
+        static void FuncaoDataLength()
+        {
+            using var db = new ApplicationContext();
+            ApagarERecriarBancoDeDados(db);
+
+            var resultado = db
+                .Funcoes
+                .AsNoTracking()
+                .Select(x => new
+                {
+                    TotalBytesCampoData = EF.Functions.DataLength(x.Data1),
+                    TotalBytes1 = EF.Functions.DataLength(x.Descricao1),
+                    TotalBytes2 = EF.Functions.DataLength(x.Descricao2),
+                    Total1 = x.Descricao1.Length,
+                    Total2 = x.Descricao2.Length
+                })
+                .FirstOrDefault();
+
+            Console.WriteLine("Resultado:");
+            Console.WriteLine(resultado);
         }
         
     }
