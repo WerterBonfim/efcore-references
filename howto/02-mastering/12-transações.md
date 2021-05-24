@@ -8,10 +8,15 @@
 * 6 - Usando TransactionScope
 
 
-## 1 - O que é trasação
-```c#
-```
+## 1 - O que é transação
 
+É uma sequência de operações que serão executadas.
+
+### ACID
+ * Atomicty: Faz tudo ou não faz nada
+ * Consistency: Todos os dados devem ser validos.
+ * Isolation: Uma transação não deve inteferir ou ser afetada por outras transações.
+ * Durability: Persistencia na memória permanente (Disco)
 
 ## 2 - Comportamento padrão do EF Core
 ```c#
