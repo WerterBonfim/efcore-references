@@ -50,7 +50,9 @@ namespace DominandoEFCore.Data
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .AddInterceptors(new InterceptadorDeComandos())
                 .AddInterceptors(new InterceptadorDeConexao())
+                .AddInterceptors(new InterceptadorDePercistencia())
                 ;
+
         }
 
 

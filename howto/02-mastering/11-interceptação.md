@@ -40,6 +40,13 @@ optionsBuilder
 
 [Docs oficial sobre interceptação][doc-interceptacao]
 
+
+
+
+[doc-interceptacao]:https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
+
+## 4 - Aplicando hint NOLOCK nas consultas
+
 Um exemplo pratico
 
  ```c#
@@ -72,10 +79,8 @@ private static void UsarNoLock(DbCommand command)
  ```
 
 
-[doc-interceptacao]:https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
 
-## 4 - Aplicando hint NOLOCK nas consultas
-
+## 5 - Interceptando abertura de conexão com o banco
 
 ```c#
 optionsBuilder
@@ -114,13 +119,44 @@ public class InterceptadorDeConexao : DbConnectionInterceptor
 ```
 
 
-## 5 - Interceptando abertura de conexão com o banco
-```
-```
-
 
 ## 6 - Interceptando alterações.
-```
+```c#
+
+optionsBuilder
+    .UseSqlServer(stringDeConexao)
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .AddInterceptors(new InterceptadorDeComandos())
+    .AddInterceptors(new InterceptadorDeConexao())
+    .AddInterceptors(new InterceptadorDePercistencia())
+    ;
+
+
+public class InterceptadorDeConexao : DbConnectionInterceptor
+{
+    public override InterceptionResult ConnectionOpening(
+        DbConnection connection, 
+        ConnectionEventData eventData, 
+        InterceptionResult result)
+    {
+
+        Console.WriteLine("Entrei no metodo ConnectionOpening");
+
+        Console.WriteLine(connection.ConnectionString);
+
+        var builder = new SqlConnectionStringBuilder(connection.ConnectionString)
+        {
+            ApplicationName = "Rider CursoEFCore"
+        };
+
+        connection.ConnectionString = builder.ToString();
+        Console.WriteLine(builder.ToString());
+        
+        return result;
+    }
+}
+
 ```
 
 

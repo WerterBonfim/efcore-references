@@ -1,5 +1,6 @@
 using System.Linq;
 using DominandoEFCore.Data;
+using DominandoEFCore.Domain;
 
 namespace DominandoEFCore.Sessoes
 {
@@ -7,7 +8,21 @@ namespace DominandoEFCore.Sessoes
     {
         public static void ExecutarExemplos()
         {
-            TesteInterceptacao();
+            //TesteInterceptacao();
+            TesteInterceptacaoSaveChanges();
+        }
+
+        private static void TesteInterceptacaoSaveChanges()
+        {
+            using var db = new ApplicationContext();
+            Helpers.RecriarBancoDeDados(db);
+
+            db.Funcoes.Add(new Funcao
+            {
+                Descricao1 = "Teste"
+            });
+
+            db.SaveChanges();
         }
 
         static void TesteInterceptacao()
