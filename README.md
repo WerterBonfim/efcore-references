@@ -169,3 +169,15 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 * 5 - Funções Collate
 
 [level02.ef-functions]:howto/02-mastering/10-ef-functions.md
+
+## [Section 11 - Interceptação][level02.interceptação]
+
+* 1 - O que são interceptadores de comandos?
+* 2 - Criando e registrando um interceptador
+* 3 - Sobrescrevendo métodos da classe base
+* 4 - Aplicando hint NOLOCK nas consultas
+* 5 - Interceptando abertura de conexão com o banco
+* 6 - Interceptando alterações.
+
+
+[level02.interceptação]:howto/02-mastering/11-interceptação.md
