@@ -5,6 +5,7 @@ using System.Reflection;
 using DominandoEFCore.Configurations;
 using DominandoEFCore.Conversores;
 using DominandoEFCore.Domain;
+using DominandoEFCore.Interceptadores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -47,6 +48,7 @@ namespace DominandoEFCore.Data
                 .UseSqlServer(stringDeConexao)
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information)
+                .AddInterceptors(new InterceptadorDeComandos())
                 ;
         }
 

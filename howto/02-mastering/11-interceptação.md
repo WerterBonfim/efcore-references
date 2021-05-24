@@ -10,12 +10,29 @@
 
 
 ## 1 - O que são interceptadores de comandos?
-```
-```
+Três interfaces importantes para esse recurso:
+    * IDbCommandInterceptor
+    * IDbConnectionInterceptor
+    * IDbTransactionInterceptor
 
 
 ## 2 - Criando e registrando um interceptador
-```
+```c#
+
+public class InterceptadorDeComandos : DbCommandInterceptor
+{    
+}
+
+// Definindo um interceptador
+
+
+//OnConfiguring
+optionsBuilder
+    .UseSqlServer(stringDeConexao)
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .AddInterceptors(new InterceptadorDeComandos())
+
 ```
 
 

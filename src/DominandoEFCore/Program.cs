@@ -85,7 +85,9 @@ namespace DominandoEFCore
             //SacolaDePropriedades();
             
             //Sessao09DataAnnotations.ExecutarExemplos();
-            Sessao10EFFunctions.ExecutarExemplos();
+            //Sessao10EFFunctions.ExecutarExemplos();
+            Sessao11Interceptacao.ExecutarExemplos();
+            
         }
 
       
