@@ -37,9 +37,15 @@ optionsBuilder
 
 
 ## 3 - Sobrescrevendo métodos da classe base
-```
+
+[Docs oficial sobre interceptação][doc-interceptacao]
+
+
+```c#
+
 ```
 
+[doc-interceptacao]:https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
 
 ## 4 - Aplicando hint NOLOCK nas consultas
 ```
