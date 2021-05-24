@@ -75,7 +75,42 @@ private static void UsarNoLock(DbCommand command)
 [doc-interceptacao]:https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
 
 ## 4 - Aplicando hint NOLOCK nas consultas
-```
+
+
+```c#
+optionsBuilder
+    .UseSqlServer(stringDeConexao)
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .AddInterceptors(new InterceptadorDeComandos())
+    .AddInterceptors(new InterceptadorDeConexao())
+    ;
+
+
+
+public class InterceptadorDeConexao : DbConnectionInterceptor
+{
+    public override InterceptionResult ConnectionOpening(
+        DbConnection connection, 
+        ConnectionEventData eventData, 
+        InterceptionResult result)
+    {
+
+        Console.WriteLine("Entrei no metodo ConnectionOpening");
+
+        Console.WriteLine(connection.ConnectionString);
+
+        var builder = new SqlConnectionStringBuilder(connection.ConnectionString)
+        {
+            ApplicationName = "Rider CursoEFCore"
+        };
+
+        connection.ConnectionString = builder.ToString();
+        Console.WriteLine(builder.ToString());
+        
+        return result;
+    }
+}
 ```
 
 

@@ -49,6 +49,7 @@ namespace DominandoEFCore.Data
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .AddInterceptors(new InterceptadorDeComandos())
+                .AddInterceptors(new InterceptadorDeConexao())
                 ;
         }
 
