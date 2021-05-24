@@ -40,10 +40,37 @@ optionsBuilder
 
 [Docs oficial sobre interceptação][doc-interceptacao]
 
+Um exemplo pratico
 
-```c#
+ ```c#
 
-```
+private static readonly Regex _tableRegex =
+    new Regex(@"(?<tableAlias>FROM +(\[.*\]\.)?(\[.*\]) AS (\[.*\])(?! WITH \(NOLOCK\)))", 
+        RegexOptions.Multiline | 
+        RegexOptions.IgnoreCase | 
+        RegexOptions.Compiled);
+
+public override InterceptionResult<DbDataReader> ReaderExecuting(
+    DbCommand command,
+    CommandEventData eventData,
+    InterceptionResult<DbDataReader> result)
+{
+    Console.WriteLine("[Sync] Entrei dentro do metodo ReaderExecutings");
+    UsarNoLock(command);
+
+    return base.ReaderExecuting(command, eventData, result);
+}
+
+private static void UsarNoLock(DbCommand command)
+{
+    if (command.CommandText.Contains("WITH (NOLOCK)"))
+        return;
+
+    command.CommandText = _tableRegex
+        .Replace(command.CommandText, "${tableAlias} WITH (NOLOCK)");
+}
+ ```
+
 
 [doc-interceptacao]:https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
 
