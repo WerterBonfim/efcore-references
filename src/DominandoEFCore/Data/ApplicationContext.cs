@@ -36,23 +36,26 @@ namespace DominandoEFCore.Data
         public DbSet<Aeroporto> Aeroportos { get; set; }
 
         public DbSet<Funcao> Funcoes { get; set; }
+        public DbSet<Livro> Livros { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var stringDeConexao = "Server=localhost,1433;" +
                                   "Database=DominandoEFCore;" +
                                   "User Id=sa; " +
-                                  "Password=!123Senha;pooling=true;";
+                                  "Password=!123Senha;" +
+                                  "Application Name=\"Rider CursoEFCore\";" +
+                                  "pooling=true;";
+
 
             optionsBuilder
                 .UseSqlServer(stringDeConexao)
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information)
+                //.AddInterceptors(new InterceptadorDeConexao())
                 .AddInterceptors(new InterceptadorDeComandos())
-                .AddInterceptors(new InterceptadorDeConexao())
                 .AddInterceptors(new InterceptadorDePercistencia())
                 ;
-
         }
 
 
