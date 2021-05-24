@@ -181,3 +181,16 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.interceptação]:howto/02-mastering/11-interceptação.md
+
+
+## [Section 12 - Transações][level02.transações]
+
+* 1 - O que é trasação
+* 2 - Comportamento padrão do EF Core
+* 3 - Gerenciando transação manualmente
+* 4 - Revertendo uma transação
+* 5 - Salvando ponto de uma transação
+* 6 - Usando TransactionScope
+
+
+[level02.transações]:howto/02-mastering/12-transações.md
