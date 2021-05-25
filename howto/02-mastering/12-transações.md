@@ -63,11 +63,6 @@ transacao.Commit();
 
 ## 4 - Revertendo uma transação
 ```c#
-```
-
-
-## 5 - Salvando ponto de uma transação
-```c#
 var transacao = db.Database.BeginTransaction();
 try
 {
@@ -82,6 +77,12 @@ catch (Exception e)
     // Revertendo as alterações
     transacao.Rollback();
 }
+```
+
+
+## 5 - Salvando ponto de uma transação
+```c#
+
 ```
 
 
