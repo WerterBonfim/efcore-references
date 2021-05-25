@@ -16,19 +16,31 @@ Pode retornar 3 tipos de dados, string, int e tabela values
 
 O EF já mapeada funções incorporadas o SqlServer
 
-```c#
-```
-
-
 ## 2 - Built-In Function
 
 ```c#
+
+
+// Mapea uma Build-In Function do Sql Server
+[DbFunction(name: "LEFT", IsBuiltIn = true)]
+public static string Left(string dados, int quantidade)
+{
+    throw new NotImplementedException();
+}
+
+var resultado = db.Livros
+    .Select(x => ApplicationContext.Left(x.Titulo, 5));
+
+foreach(var tituloLivro in resultado)
+    Console.WriteLine(tituloLivro);
+    
 ```
 
 
 ## 3 - Registrando Funções
 
 ```c#
+
 ```
 
 

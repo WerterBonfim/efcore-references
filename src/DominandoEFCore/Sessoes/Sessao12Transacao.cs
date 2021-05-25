@@ -21,7 +21,7 @@ namespace DominandoEFCore.Sessoes
         private static void ExemploTransactionScoped()
         {
             using var db = new ApplicationContext();
-            CadastrarLivro(db);
+            Helpers.CadastrarLivro(db);
 
             var options = new TransactionOptions
             {
@@ -76,7 +76,7 @@ namespace DominandoEFCore.Sessoes
         private static void SalvarPontoTransacao()
         {
             using var db = new ApplicationContext();
-            CadastrarLivro(db);
+            Helpers.CadastrarLivro(db);
 
             var transacao = db.Database.BeginTransaction();
             try
@@ -124,7 +124,7 @@ namespace DominandoEFCore.Sessoes
         private static void RevertendoTransacao()
         {
             using var db = new ApplicationContext();
-            CadastrarLivro(db);
+            Helpers.CadastrarLivro(db);
 
             var transacao = db.Database.BeginTransaction();
             try
@@ -157,7 +157,7 @@ namespace DominandoEFCore.Sessoes
         private static void GerenciandoTransacaoManualmente()
         {
             using var db = new ApplicationContext();
-            CadastrarLivro(db);
+            Helpers.CadastrarLivro(db);
 
             var transacao = db.Database.BeginTransaction();
 
@@ -182,7 +182,7 @@ namespace DominandoEFCore.Sessoes
         private static void ComportamentoPadrao()
         {
             using var db = new ApplicationContext();
-            CadastrarLivro(db);
+            Helpers.CadastrarLivro(db);
 
             var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
             livro.Autor = "Werter Bonfim";
@@ -196,17 +196,6 @@ namespace DominandoEFCore.Sessoes
             db.SaveChanges();
         }
 
-        private static void CadastrarLivro(ApplicationContext db)
-        {
-            Helpers.RecriarBancoDeDados(db);
-
-            db.Livros.Add(new Livro
-            {
-                Titulo = "A Arte de Escrever Programas Legíveis",
-                Autor = "Dustin Boswell"
-            });
-
-            db.SaveChanges();
-        }
+        
     }
 }

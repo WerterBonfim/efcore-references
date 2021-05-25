@@ -88,5 +88,11 @@ namespace DominandoEFCore.Data
                 });
 
         }
+
+        [DbFunction(name: "LEFT", IsBuiltIn = true)]
+        public static string Left(string dados, int quantidade)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

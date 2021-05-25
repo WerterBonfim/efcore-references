@@ -87,8 +87,9 @@ namespace DominandoEFCore
             //Sessao09DataAnnotations.ExecutarExemplos();
             //Sessao10EFFunctions.ExecutarExemplos();
             //Sessao11Interceptacao.ExecutarExemplos();
-            Sessao12Transacao.ExecutarExemplos();
-            
+            //Sessao12Transacao.ExecutarExemplos();
+            Sessao13UDFs.ExecutarExemplos();
+
         }
 
       

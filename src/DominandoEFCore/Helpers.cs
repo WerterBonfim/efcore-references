@@ -49,5 +49,18 @@ namespace DominandoEFCore
             var script = db.Database.GenerateCreateScript();
             Console.WriteLine(script);
         }
+        
+        public static void CadastrarLivro(ApplicationContext db)
+        {
+            Helpers.RecriarBancoDeDados(db);
+
+            db.Livros.Add(new Livro
+            {
+                Titulo = "A Arte de Escrever Programas Legíveis",
+                Autor = "Dustin Boswell"
+            });
+
+            db.SaveChanges();
+        }
     }
 }
