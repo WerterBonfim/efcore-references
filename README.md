@@ -194,3 +194,16 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.transações]:howto/02-mastering/12-transações.md
+
+
+## [Section 13 - UDFs][level02.udfs]
+
+* 1 - O que é UDF
+* 2 - Built-In Function
+* 3 - Registrando Funções
+* 4 - Registrando Funções Via Fluent API
+* 5 - Função definada pelo usuário
+* 6 - Customizando uma função complexa
+
+
+[level02.udfs]:howto/02-mastering/13-UDFs.md
