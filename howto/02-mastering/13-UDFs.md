@@ -102,6 +102,42 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 ## 5 - Função definada pelo usuário
 
 ```c#
+
+// Program
+
+db.Database.ExecuteSqlRaw(@"
+    CREATE FUNCTION ConverterParaLetrasMaiusculas(@dados VARCHAR(100))
+    RETURNS VARCHAR(100)
+    BEGIN
+        RETURN UPPER(@dados)
+    END
+");
+
+var resultado = db.Livros
+    .Select(x => SqlHelperFunctions.LetrasMaiusculas(x.Titulo));
+
+    foreach (var titulo in resultado)
+        Console.WriteLine(titulo);
+
+
+
+// Registrando via FluentAPI
+modelBuilder
+    .HasDbFunction(_sqlFunctionLetrasMaiusculas)
+    .HasName("ConverterParaLetrasMaiusculas")
+    .HasSchema("dbo");
+
+// Campo privado
+private static MethodInfo _sqlFunctionLetrasMaiusculas = typeof(SqlHelperFunctions)
+            .GetRuntimeMethod("LetrasMaiusculas", new[] {typeof(string)});
+
+// Ou através de classes
+[DbFunction(name:"ConverterParaLetrasMaiusculas",  Schema = "dbo")]
+public static string LetrasMaiusculas(string dados)
+{
+    throw new NotImplementedException();
+}
+
 ```
 
 

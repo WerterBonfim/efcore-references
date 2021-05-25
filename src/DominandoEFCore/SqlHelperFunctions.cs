@@ -28,5 +28,12 @@ namespace DominandoEFCore
         {
             throw new NotImplementedException();
         }
+
+        
+        [DbFunction(name:"ConverterParaLetrasMaiusculas",  Schema = "dbo")]
+        public static string LetrasMaiusculas(string dados)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

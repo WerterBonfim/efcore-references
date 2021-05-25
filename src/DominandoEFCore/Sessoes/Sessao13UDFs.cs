@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DominandoEFCore.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DominandoEFCore.Sessoes
 {
@@ -8,7 +9,29 @@ namespace DominandoEFCore.Sessoes
     {
         public static void ExecutarExemplos()
         {
-            FunscaoLeft();
+            //FunscaoLeft();
+            FuncaoDefinidaPeloUsuario();
+        }
+
+        private static void FuncaoDefinidaPeloUsuario()
+        {
+            using var db = new ApplicationContext();
+            Helpers.CadastrarLivro(db);
+
+            db.Database.ExecuteSqlRaw(@"
+                CREATE FUNCTION ConverterParaLetrasMaiusculas(@dados VARCHAR(100))
+                RETURNS VARCHAR(100)
+                BEGIN
+                    RETURN UPPER(@dados)
+                END
+            ");
+
+            var resultado = db.Livros
+                .Select(x => SqlHelperFunctions.LetrasMaiusculas(x.Titulo));
+
+            foreach (var titulo in resultado)
+                Console.WriteLine(titulo);
+            
         }
 
         private static void FunscaoLeft()
