@@ -19,12 +19,45 @@
  * Durability: Persistencia na memória permanente (Disco)
 
 ## 2 - Comportamento padrão do EF Core
-```c#
-```
+
+Por padrão o EFCore, através do SaveChanges, envolve as operações em uma transação,
+você pode ver essas operações através de uma ferramenta de profile.
+
+No Windows: Sql Profile
+No Linux: Azure Data Studio - Extenção "SQL Server Profiler"
 
 
 ## 3 - Gerenciando transação manualmente
+
+
+
 ```c#
+
+// Internamente o EF Core irar interagir com o driver do sql server
+// e irar gerar um instancia do DbTransaction (ADO.NET)
+var transacao = db.Database.BeginTransaction();
+
+var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+livro.Autor = "Werter TDD";
+
+// Irar interagir com a transação
+db.SaveChanges();
+
+// Para visualizar no Sql e Sql Profile o que acontece
+Console.ReadKey();
+
+
+db.Livros.Add(new Livro
+{
+    Titulo = "Boas praticas e código limpo",
+    Autor = "Werter"
+});
+
+db.SaveChanges();
+
+
+// Efetiva as alterações no banco de dados
+transacao.Commit();
 ```
 
 

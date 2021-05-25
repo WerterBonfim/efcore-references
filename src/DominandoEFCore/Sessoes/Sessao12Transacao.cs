@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using DominandoEFCore.Data;
 using DominandoEFCore.Domain;
@@ -8,7 +9,33 @@ namespace DominandoEFCore.Sessoes
     {
         public static void ExecutarExemplos()
         {
-            ComportamentoPadrao();
+            //ComportamentoPadrao();
+            GerenciandoTransacaoManualmente();
+        }
+
+        private static void GerenciandoTransacaoManualmente()
+        {
+            using var db = new ApplicationContext();
+            CadastrarLivro(db);
+
+            var transacao = db.Database.BeginTransaction();
+
+            var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+            livro.Autor = "Werter TDD";
+            db.SaveChanges();
+
+            //Console.ReadKey();
+            
+
+            db.Livros.Add(new Livro
+            {
+                Titulo = "Boas praticas e código limpo",
+                Autor = "Werter"
+            });
+
+            db.SaveChanges();
+            
+            transacao.Commit();
         }
 
         private static void ComportamentoPadrao()
