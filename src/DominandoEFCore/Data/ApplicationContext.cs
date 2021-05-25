@@ -87,10 +87,18 @@ namespace DominandoEFCore.Data
                         .HasDefaultValueSql("'Teste'");
                 });
             
-            SqlHelperFunctions.Registrar(modelBuilder);
+            //SqlHelperFunctions.Registrar(modelBuilder);
+
+            modelBuilder
+                .HasDbFunction(_sqlFunctionLeft)
+                .HasName("LEFT")
+                .IsBuiltIn();
 
         }
 
-       
+        private static MethodInfo _sqlFunctionLeft = typeof(SqlHelperFunctions)
+            .GetRuntimeMethod("Left", new[] {typeof(string), typeof(int)});
+
+
     }
 }

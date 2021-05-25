@@ -84,6 +84,18 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 ## 4 - Registrando Funções Via Fluent API
 
 ```c#
+
+    // OnModelCreating
+    modelBuilder
+        .HasDbFunction(_sqlFunctionLeft)
+        .HasName("LEFT")
+        .IsBuiltIn();    
+
+    // Campo privado da classe
+    private static MethodInfo _sqlFunctionLeft = typeof(SqlHelperFunctions)
+        .GetRuntimeMethod("Left", new[] {typeof(string), typeof(int)});
+
+
 ```
 
 
