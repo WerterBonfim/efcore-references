@@ -17,7 +17,7 @@ namespace DominandoEFCore.Sessoes
             Helpers.CadastrarLivro(db);
 
             var resultado = db.Livros
-                .Select(x => ApplicationContext.Left(x.Titulo, 5));
+                .Select(x => SqlHelperFunctions.Left(x.Titulo, 5));
             
             foreach(var tituloLivro in resultado)
                 Console.WriteLine(tituloLivro);

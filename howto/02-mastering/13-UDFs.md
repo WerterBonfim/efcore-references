@@ -33,15 +33,52 @@ var resultado = db.Livros
 
 foreach(var tituloLivro in resultado)
     Console.WriteLine(tituloLivro);
-    
+
 ```
 
 
 ## 3 - Registrando Funções
 
+Para registrar as funções é preciso definir isso no metodo OnModelCreating
+
 ```c#
 
+
+// Definindo uma classe responsavel por registar as funções Sql
+public class SqlHelperFunctions
+{
+
+    // Registra no EFCore as minhas funções criadas
+    public static void Registrar(ModelBuilder builder)
+    {
+        var funcoes = typeof(SqlHelperFunctions)
+            .GetMethods()
+            .Where(x => MetodoFoiDefinidoComAtributoDbFunction(x));
+
+        foreach (var funcao in funcoes)
+            builder.HasDbFunction(funcao);
+    }
+
+    private static bool MetodoFoiDefinidoComAtributoDbFunction(MethodInfo informacoesDoMetodo)
+    {
+        return Attribute
+            .IsDefined(informacoesDoMetodo, typeof(DbFunctionAttribute));
+    }
+
+    [DbFunction(name: "LEFT", IsBuiltIn = true)]
+    public static string Left(string dados, int quantidade)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{    
+    SqlHelperFunctions.Registrar(modelBuilder);
+}
+
 ```
+
 
 
 ## 4 - Registrando Funções Via Fluent API

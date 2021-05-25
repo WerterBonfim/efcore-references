@@ -86,13 +86,11 @@ namespace DominandoEFCore.Data
                         .HasColumnType("VARCHAR(100)")
                         .HasDefaultValueSql("'Teste'");
                 });
+            
+            SqlHelperFunctions.Registrar(modelBuilder);
 
         }
 
-        [DbFunction(name: "LEFT", IsBuiltIn = true)]
-        public static string Left(string dados, int quantidade)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
