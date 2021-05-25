@@ -10,6 +10,12 @@
 
 ## 1 - O que é UDF
 
+Função definida pelo usuário.
+
+Pode retornar 3 tipos de dados, string, int e tabela values
+
+O EF já mapeada funções incorporadas o SqlServer
+
 ```c#
 ```
 
