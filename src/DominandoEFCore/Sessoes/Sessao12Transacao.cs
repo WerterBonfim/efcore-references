@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using DominandoEFCore.Data;
 using DominandoEFCore.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace DominandoEFCore.Sessoes
 {
@@ -11,7 +12,56 @@ namespace DominandoEFCore.Sessoes
         {
             //ComportamentoPadrao();
             //GerenciandoTransacaoManualmente();
-            RevertendoTransacao();
+            //RevertendoTransacao();
+            SalvarPontoTransacao();
+        }
+
+        private static void SalvarPontoTransacao()
+        {
+            using var db = new ApplicationContext();
+            CadastrarLivro(db);
+
+            var transacao = db.Database.BeginTransaction();
+            try
+            {
+                var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+                livro.Autor = "Werter do TDD";
+                db.SaveChanges();
+                
+                transacao.CreateSavepoint("desfazer_apenas_insercao");
+
+                Console.ReadKey();
+
+                db.Livros.Add(new Livro
+                {
+                    Titulo = "Boas praticas e código limpo",
+                    Autor = "Werter"
+                });
+
+                db.SaveChanges();
+
+                // Da um erro aqui
+                db.Livros.Add(new Livro
+                {
+                    Titulo = "Qualquer um",
+                    Autor = "Vai dar erro".PadLeft(16, '*')
+                });
+                
+                db.SaveChanges();
+            
+                transacao.Commit();
+            }
+            catch (DbUpdateException e)
+            {
+                transacao.RollbackToSavepoint("desfazer_apenas_insercao");
+
+                var todasEntidadesSaoDeInclusao = 
+                    e.Entries
+                        .Count(x => x.State == EntityState.Added) == e.Entries.Count;
+                
+                if (todasEntidadesSaoDeInclusao) transacao.Commit();
+                
+            }
         }
 
         private static void RevertendoTransacao()
