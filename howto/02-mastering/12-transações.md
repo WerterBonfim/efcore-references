@@ -83,10 +83,72 @@ catch (Exception e)
 ## 5 - Salvando ponto de uma transação
 ```c#
 
+var transacao = db.Database.BeginTransaction();
+try
+{
+    var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+    livro.Autor = "Werter do TDD";
+    db.SaveChanges();
+    
+    transacao.CreateSavepoint("desfazer_apenas_insercao");
+
+    Console.ReadKey();
+
+    db.Livros.Add(new Livro
+    {
+        Titulo = "Boas praticas e código limpo",
+        Autor = "Werter"
+    });
+
+    db.SaveChanges();
+
+    // Da um erro aqui
+    db.Livros.Add(new Livro
+    {
+        Titulo = "Qualquer um",
+        Autor = "Vai dar erro".PadLeft(16, '*')
+    });
+    
+    db.SaveChanges();
+
+    transacao.Commit();
+}
+catch (DbUpdateException e)
+{
+    transacao.RollbackToSavepoint("desfazer_apenas_insercao");
+
+    var todasEntidadesSaoDeInclusao = 
+        e.Entries
+            .Count(x => x.State == EntityState.Added) == e.Entries.Count;
+    
+    if (todasEntidadesSaoDeInclusao) transacao.Commit();
+    
+}
+
 ```
 
 
 ## 6 - Usando TransactionScope
+
+O TransactionScope é uma classe que faz transações com base em um bloco de código, ela possui
+a própria infraestrutura para gerencias as transações automaticamente.
+
+Sendo assim o TransactionScoped reduz a complexidade do código e é muito utilizado e indicado.
+
+
+
 ```c#
+
+var options = new TransactionOptions
+{
+    IsolationLevel = IsolationLevel.ReadCommitted
+};
+
+using var scope = new TransactionScope(TransactionScopeOption.Required, options);
+ConsultarAtualizar();
+CadastrarLivroCodigoLimpo();
+CadastrarLivroDominandoEFCore();
+
+scope.Complete();
 ```
 

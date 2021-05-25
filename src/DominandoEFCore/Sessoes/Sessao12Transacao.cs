@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Transactions;
 using DominandoEFCore.Data;
 using DominandoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +14,64 @@ namespace DominandoEFCore.Sessoes
             //ComportamentoPadrao();
             //GerenciandoTransacaoManualmente();
             //RevertendoTransacao();
-            SalvarPontoTransacao();
+            //SalvarPontoTransacao();
+            ExemploTransactionScoped();
         }
+
+        private static void ExemploTransactionScoped()
+        {
+            using var db = new ApplicationContext();
+            CadastrarLivro(db);
+
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            using var scope = new TransactionScope(TransactionScopeOption.Required, options);
+            ConsultarAtualizar();
+            CadastrarLivroCodigoLimpo();
+            CadastrarLivroDominandoEFCore();
+            
+            scope.Complete();
+        }
+
+        private static void CadastrarLivroDominandoEFCore()
+        {
+            using (var db = new ApplicationContext())
+            {
+                db.Livros.Add(new Livro
+                {
+                    Titulo = "Dominando o Entity Framework Core",
+                    Autor = "Rafael Almeida"
+                });
+                db.SaveChanges();
+            }
+        }
+
+        private static void CadastrarLivroCodigoLimpo()
+        {
+            using (var db = new ApplicationContext())
+            {
+                db.Livros.Add(new Livro
+                {
+                    Titulo = "Código Limpo",
+                    Autor = "Robert C.Martin"
+                });
+                db.SaveChanges();
+            }
+        }
+
+        private static void ConsultarAtualizar()
+        {
+            using (var db = new ApplicationContext())
+            {
+                var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+                livro.Autor = "Werter to TDD2";
+                db.SaveChanges();
+            }
+        }
+
 
         private static void SalvarPontoTransacao()
         {
