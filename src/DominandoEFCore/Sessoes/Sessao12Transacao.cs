@@ -10,7 +10,41 @@ namespace DominandoEFCore.Sessoes
         public static void ExecutarExemplos()
         {
             //ComportamentoPadrao();
-            GerenciandoTransacaoManualmente();
+            //GerenciandoTransacaoManualmente();
+            RevertendoTransacao();
+        }
+
+        private static void RevertendoTransacao()
+        {
+            using var db = new ApplicationContext();
+            CadastrarLivro(db);
+
+            var transacao = db.Database.BeginTransaction();
+            try
+            {
+                var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+                livro.Autor = "Werter TDD".PadLeft(16, '*');
+                db.SaveChanges();
+
+                Console.ReadKey();
+            
+
+                db.Livros.Add(new Livro
+                {
+                    Titulo = "Boas praticas e código limpo",
+                    Autor = "Werter"
+                });
+
+                db.SaveChanges();
+            
+                transacao.Commit();
+            }
+            catch (Exception e)
+            {
+                transacao.Rollback();
+            }
+
+            
         }
 
         private static void GerenciandoTransacaoManualmente()
@@ -24,7 +58,7 @@ namespace DominandoEFCore.Sessoes
             livro.Autor = "Werter TDD";
             db.SaveChanges();
 
-            //Console.ReadKey();
+            Console.ReadKey();
             
 
             db.Livros.Add(new Livro

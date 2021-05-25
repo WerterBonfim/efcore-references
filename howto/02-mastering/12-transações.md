@@ -68,6 +68,20 @@ transacao.Commit();
 
 ## 5 - Salvando ponto de uma transação
 ```c#
+var transacao = db.Database.BeginTransaction();
+try
+{
+    var livro = db.Livros.FirstOrDefault(x => x.Id == 1);
+    // Forçando um erro, a coluna autor tem um tamanho maximo de 
+    livro.Autor = "Werter TDD".PadLeft(16, '*');
+    db.SaveChanges();    
+    transacao.Commit();
+}
+catch (Exception e)
+{
+    // Revertendo as alterações
+    transacao.Rollback();
+}
 ```
 
 
