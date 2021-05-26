@@ -143,7 +143,48 @@ public static string LetrasMaiusculas(string dados)
 
 ## 6 - Customizando uma função complexa
 
+Customizando a função interna do Sql Server DATEDIFF que recebe três parametros,
+sendo que o primeiro parametro (datepart) é especial:
+
+"O valor de datepart não pode ser especificado em uma variável, nem como strings entre aspas, ex: 'month'".
+
+
 ```c#
+
+// Definição no C#
+public static int DateDiff(string identificador, DateTime dataInicial, DateTime dataFinal)
+{
+    throw new NotImplementedException();
+}
+
+// Customizando a parametrização dos parametros
+public static SqlExpression DateDiffTranslation(IReadOnlyCollection<SqlExpression> arguments)
+{
+    var args = arguments.ToArray();
+    var datepart = (SqlConstantExpression) args[0];
+    var newArgs = new[]
+    {
+        new SqlFragmentExpression(datepart.Value.ToString()),
+        args[1],
+        args[2]
+    };
+
+    return new SqlFunctionExpression(
+        "DATEDIFF",
+        newArgs,
+        false,
+        new[] {false, false, false},
+        typeof(int),
+        null
+    );
+}
+
+builder
+    .HasDbFunction(ObterMethodInfo(nameof(DateDiff)))
+    .HasName("DATEDIFF")
+    .HasTranslation(x => DateDiffTranslation(x))
+    .IsBuiltIn();
+
 ```
 
 
