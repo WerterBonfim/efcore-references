@@ -16,7 +16,67 @@ namespace DominandoEFCore.Sessoes
             //ConsultaComResolucaoDeIdentidade();
 
             //ConsultaCustomizada();
-            ConsultaProjetadaERastreada();
+            //ConsultaProjetadaERastreada();
+
+            //SetupDaAulaConsultaProjetada();
+            ConsultaProjetada();
+        }
+
+        private static void ConsultaProjetada()
+        {
+            //SemProjecao();
+
+            ComProjecao();
+        }
+
+        private static void ComProjecao()
+        {
+            using var db = new ApplicationContext();
+
+            var comProjecao = db.Departamentos
+                .Select(x => x.Descricao)
+                .ToArray();
+
+            var memoriaComProjecao = (System.Diagnostics.Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024) + " MB";
+            Console.WriteLine($"Total de memoria utilizada: {memoriaComProjecao}");
+        }
+
+        private static void SemProjecao()
+        {
+            using var db = new ApplicationContext();
+
+            var semProjecao = db.Departamentos.ToArray();
+
+            var memoriaSemProjecao = (System.Diagnostics.Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024) + " MB";
+            Console.WriteLine($"Total de memoria utilizada: {memoriaSemProjecao}");
+            
+        }
+
+        /// <summary>
+        /// Vai inserir 200 departamentos com 1MB cada imagem
+        /// </summary>
+        private static void SetupDaAulaConsultaProjetada()
+        {
+            using var db = new ApplicationContext();
+            Helpers.RecriarBancoDeDados(db);
+
+            var random = new Random();
+            
+            db.Departamentos.AddRange(Enumerable.Range(1, 200).Select(x => new Departamento
+            {
+                Descricao = "Departamento Teste " + x,
+                Imagem = GetBytes()
+            }));
+
+            db.SaveChanges();
+
+            byte[] GetBytes()
+            {
+                var buffer = new byte[1024 * 1024];
+                random.NextBytes(buffer);
+                return buffer;
+            }
+
         }
 
         private static void ConsultaProjetadaERastreada()

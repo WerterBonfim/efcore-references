@@ -171,5 +171,29 @@ db.SaveChanges();
 
 ## 5 - Consultas projetadas
 
+As consultas projetadas tem uma melhor performance dependendo do senário
+
 ```c#
+private static void ComProjecao()
+{
+    using var db = new ApplicationContext();
+
+    var comProjecao = db.Departamentos
+        .Select(x => x.Descricao)
+        .ToArray();
+
+    var memoriaComProjecao = (System.Diagnostics.Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024) + " MB";
+    Console.WriteLine($"Total de memoria utilizada: {memoriaComProjecao}");
+}
+
+private static void SemProjecao()
+{
+    using var db = new ApplicationContext();
+
+    var semProjecao = db.Departamentos.ToArray();
+
+    var memoriaSemProjecao = (System.Diagnostics.Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024) + " MB";
+    Console.WriteLine($"Total de memoria utilizada: {memoriaSemProjecao}");
+    
+}
 ```

@@ -11,5 +11,6 @@ namespace DominandoEFCore.Domain
         public bool Ativo { get; set; }
         public bool Excluido { get; set; }
         public List<Funcionario> Funcionarios { get; set; }
+        public byte[] Imagem { get; set; }
     }
 }
