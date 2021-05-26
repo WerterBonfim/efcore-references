@@ -1,8 +1,7 @@
 My resource for learning EFCore
 
 I learned through:
-* [desenvolvedor.io][dev.io] | Cource author MVP [Rafael Almeida][rafael]
-* 
+* [desenvolvedor.io][dev.io] | Cource author MVP [Rafael Almeida][rafael] 
 
 
 [dev.io]:https://desenvolvedor.io/
