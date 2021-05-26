@@ -54,7 +54,7 @@ namespace DominandoEFCore.Data
                 .UseSqlServer(stringDeConexao)
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information)
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
+                //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 //.AddInterceptors(new InterceptadorDeConexao())
                 .AddInterceptors(new InterceptadorDeComandos())
                 .AddInterceptors(new InterceptadorDePercistencia())

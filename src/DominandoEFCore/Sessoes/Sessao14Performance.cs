@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using DominandoEFCore.Data;
 using DominandoEFCore.Domain;
@@ -14,7 +15,31 @@ namespace DominandoEFCore.Sessoes
             //ConsultaNaoRastreada();
             //ConsultaComResolucaoDeIdentidade();
 
-            ConsultaCustomizada();
+            //ConsultaCustomizada();
+            ConsultaProjetadaERastreada();
+        }
+
+        private static void ConsultaProjetadaERastreada()
+        {
+            using var db = new ApplicationContext();
+
+            var departamentos = db.Departamentos
+                .Include(x => x.Funcionarios)
+                .Select(x => new
+                {
+                    Departamento = x,
+                    TotalFuncionarios = x.Funcionarios.Count()
+                })
+                .ToList();
+
+            foreach (var departamento in departamentos)
+                Console.WriteLine($"Departamento: {departamento.Departamento.Descricao} tem {departamento.TotalFuncionarios}");
+
+            departamentos[0].Departamento.Descricao = "Departamento teste atualizado";
+
+            db.SaveChanges();
+
+
         }
 
         private static void ConsultaCustomizada()

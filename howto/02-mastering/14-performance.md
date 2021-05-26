@@ -149,7 +149,24 @@ private static void ConsultaCustomizada2()
 
 ## 4 - Consulta com tipo anônimo rastreada
 
+Consulta projetadas anonimas também são rastreadas pelo EF, com isso
+você pode atualizar informações normalmente.
+
 ```c#
+using var db = new ApplicationContext();
+
+var departamentos = db.Departamentos
+    .Include(x => x.Funcionarios)
+    .Select(x => new
+    {
+        Departamento = x,
+        TotalFuncionarios = x.Funcionarios.Count()
+    })
+    .ToList();
+
+departamentos[0].Departamento.Descricao = "Departamento teste atualizado";
+
+db.SaveChanges();
 ```
 
 ## 5 - Consultas projetadas
