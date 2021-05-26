@@ -218,3 +218,20 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.Performance]:howto/02-mastering/14-performance.md
+
+
+## [Section 15 - Migrações][level02.migrações]
+
+* 1 - Migrações do EF Core
+* 2 - O que é necessário para criar uma migração?
+* 3 - Gerando uma migração
+* 4 - Analisando arquivos da migração
+* 5 - Gerando script SQL
+* 6 - Gerando script SQL idempotente
+* 7 - Aplicando migração no banco de dados
+* 8 - Desfazendo uma migração
+* 9 - Migrações pendentes
+* 10 - Engenharia Reversa
+
+
+[level02.migrações]:howto/02-mastering/15-migrations.md
