@@ -34,11 +34,31 @@ var cursos = db
 Simplesmente materializa cada entidade. 
 
 Dependendo da quantidade de registros que você busca do banco de dados,
-você pode ter uma degradação de performance.
+você pode ter uma degradação de desempenho.
 
 ## 2 - Resolução de identidade
 
+Resultado da analise:
+
+```
+Rastreada
+└── Departamentos 1 instância 40 bytes
+
+Não Rastreada
+└── Departamentos 100 instâncias 4000 bytes
+
+Com resolução de identidade
+└── Departamentos 1 instância 40 bytes
+```
+
 ```c#
+
+using var db = new ApplicationContext();
+var funcionarios = db
+    .Funcionarios
+    .AsNoTrackingWithIdentityResolution()
+    .Include(x => x.Departamento)
+    .ToList();
 ```
 
 ## 3 - Desabilitando rastreamento de consultas
