@@ -88,7 +88,8 @@ namespace DominandoEFCore
             //Sessao10EFFunctions.ExecutarExemplos();
             //Sessao11Interceptacao.ExecutarExemplos();
             //Sessao12Transacao.ExecutarExemplos();
-            Sessao13UDFs.ExecutarExemplos();
+            //Sessao13UDFs.ExecutarExemplos();
+            Sessao14Performance.ExecutarExemplos();
 
         }
 
