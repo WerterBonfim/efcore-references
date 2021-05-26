@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using DominandoEFCore.Configurations;
 using DominandoEFCore.Conversores;
@@ -8,6 +9,7 @@ using DominandoEFCore.Domain;
 using DominandoEFCore.Interceptadores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging;
 
@@ -72,7 +74,7 @@ namespace DominandoEFCore.Data
                 b.Property<string>("Chave")
                     .HasColumnType("varchar(40)")
                     .IsRequired();
-                
+
                 b.Property<string>("Valor")
                     .HasColumnType("varchar(255)")
                     .IsRequired();
@@ -86,8 +88,9 @@ namespace DominandoEFCore.Data
                         .HasColumnType("VARCHAR(100)")
                         .HasDefaultValueSql("'Teste'");
                 });
-            
+
             SqlHelperFunctions.Registrar(modelBuilder);
+            SqlHelperFunctions.RegistrarViaFluentAPI(modelBuilder);
 
             // modelBuilder
             //     .HasDbFunction(_sqlFunctionLeft)
@@ -98,16 +101,6 @@ namespace DominandoEFCore.Data
             //     .HasDbFunction(_sqlFunctionLetrasMaiusculas)
             //     .HasName("ConverterParaLetrasMaiusculas")
             //     .HasSchema("dbo");
-
-
         }
-
-        private static MethodInfo _sqlFunctionLeft = typeof(SqlHelperFunctions)
-            .GetRuntimeMethod("Left", new[] {typeof(string), typeof(int)});
-        
-        private static MethodInfo _sqlFunctionLetrasMaiusculas = typeof(SqlHelperFunctions)
-            .GetRuntimeMethod("Left", new[] {typeof(string)});
-
-
     }
 }

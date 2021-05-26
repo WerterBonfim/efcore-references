@@ -57,7 +57,8 @@ namespace DominandoEFCore
             db.Livros.Add(new Livro
             {
                 Titulo = "A Arte de Escrever Programas Legíveis",
-                Autor = "Dustin Boswell"
+                Autor = "Dustin Boswell",
+                CadastradoEm = DateTime.Now.AddDays(-1)
             });
 
             db.SaveChanges();

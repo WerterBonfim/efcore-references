@@ -10,7 +10,22 @@ namespace DominandoEFCore.Sessoes
         public static void ExecutarExemplos()
         {
             //FunscaoLeft();
-            FuncaoDefinidaPeloUsuario();
+            //FuncaoDefinidaPeloUsuario();
+            DateDIFF();
+        }
+
+        private static void DateDIFF()
+        {
+            using var db = new ApplicationContext();
+            Helpers.CadastrarLivro(db);
+
+            var resultado = db
+                .Livros
+                .Select(x => SqlHelperFunctions.DateDiff("DAY", x.CadastradoEm, DateTime.Now));
+            
+            foreach (var diferenca in resultado)
+                Console.WriteLine($"A diferença em dias é: {diferenca}");
+            
         }
 
         private static void FuncaoDefinidaPeloUsuario()
