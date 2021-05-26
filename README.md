@@ -206,3 +206,15 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.udfs]:howto/02-mastering/13-UDFs.md
+
+
+## [Section 14 - Performance][level02.Performance]
+
+* 1 - Tracking vs NoTracking
+* 2 - Resolução de identidade
+* 3 - Desabilitando rastreamento de consultas
+* 4 - Consulta com tipo anônimo rastreada
+* 5 - Consultas projetadas
+
+
+[level02.Performance]:howto/02-mastering/14-performance.md
