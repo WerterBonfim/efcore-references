@@ -10,9 +10,24 @@ namespace DominandoEFCore.Sessoes
         public static void ExecutarExemplos()
         {
             //SetupDaResoucaoDeIdentidade();
-            ConsultaRastreada();
+            //ConsultaRastreada();
             //ConsultaNaoRastreada();
             //ConsultaComResolucaoDeIdentidade();
+
+            ConsultaCustomizada();
+        }
+
+        private static void ConsultaCustomizada()
+        {
+            using var db = new ApplicationContext();
+
+            // Em tempo de execução dessa instancia, irei rastrear todas as consultas
+            db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+            
+            var funcionarios = db
+                .Funcionarios
+                .Include(x => x.Departamento)
+                .ToList();
         }
 
         private static void ConsultaComResolucaoDeIdentidade()

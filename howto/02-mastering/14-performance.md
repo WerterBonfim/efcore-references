@@ -40,7 +40,7 @@ você pode ter uma degradação de desempenho.
 
 Resultado da analise:
 
-```
+```C#
 Rastreada
 └── Departamentos 1 instância 40 bytes
 
@@ -63,7 +63,88 @@ var funcionarios = db
 
 ## 3 - Desabilitando rastreamento de consultas
 
+Por padrão, todas as consultas são rastreadas.
+
+A três cenários de configuração
+
+### 1 - Direto na consulta
+
 ```c#
+
+    // Por default é AsTracking
+    db.Funcionarios    
+        // Redudante pois por padrão todas as consultas são rastreadas
+        //.AsTracking()
+        .Include(x => x.Departamento)
+        .ToList();
+
+    // Não rastrear
+    db.Funcionarios    
+        .AsNoTracking()
+        .Include(x => x.Departamento)
+        .ToList();
+
+    // Resolução de identidade
+    db.Funcionarios
+        .AsNoTrackingWithIdentityResolution()    
+        .Include(x => x.Departamento)
+        .ToList();
+
+```
+
+
+### 2 - Configurando no DbContext
+
+No DbContext é possível customizar o comportamento através do Enum: QueryTrackingBehavior.
+
+```c#
+
+optionsBuilder
+    .UseSqlServer(stringDeConexao)
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    // Parametros: TrackAll (Default), NoTracking e NoTrackingWithIdentityResolution
+    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
+```
+
+
+### 3 - Alterando o comportamento na consulta
+
+Para habilitar em uma determinada consulta
+
+
+
+```c#
+
+private static void ConsultaCustomizada1()
+{
+    using var db = new ApplicationContext();
+
+    // Foi definido do DbContext NoTrackingWithIdentityResolution
+    // como comportamento padrão    
+    
+    var funcionarios = db
+        .Funcionarios
+        // Irei rastrear essa consulta
+        .AsTracking()
+        .Include(x => x.Departamento)
+        .ToList();
+}
+
+private static void ConsultaCustomizada2()
+{
+    using var db = new ApplicationContext();
+
+
+    // Em tempo de execução dessa instancia, irei rastrear todas as consultas,
+    // na instância do seu contexto
+    db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+    
+    var funcionarios = db
+        .Funcionarios
+        .Include(x => x.Departamento)
+        .ToList();
+}
 ```
 
 ## 4 - Consulta com tipo anônimo rastreada
