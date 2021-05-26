@@ -155,7 +155,7 @@ db.Database.ExecuteSqlRaw("WAITFOR DELAY '00:00:07'  ;SELECT 1");
 
 ### 10 - Criando uma estratégia de resiliência
 
-Senário: Ocorrera um erro de rede logo após efetuar o SaveChanges. Como esta configurado o RetryOnFailure, o EF tentara executar novamente o SaveChange e com isso poderá salvar dados duplicados. O código abaixo é uma estrategia para evitar isso.
+Cenário: Ocorrera um erro de rede logo após efetuar o SaveChanges. Como esta configurado o RetryOnFailure, o EF tentara executar novamente o SaveChange e com isso poderá salvar dados duplicados. O código abaixo é uma estrategia para evitar isso.
 
 
 ```c#

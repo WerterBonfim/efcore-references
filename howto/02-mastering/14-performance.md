@@ -171,7 +171,7 @@ db.SaveChanges();
 
 ## 5 - Consultas projetadas
 
-As consultas projetadas tem uma melhor performance dependendo do senário
+As consultas projetadas tem uma melhor performance dependendo do cenário
 
 ```c#
 private static void ComProjecao()
