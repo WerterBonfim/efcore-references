@@ -235,3 +235,14 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.migrações]:howto/02-mastering/15-migrations.md
+
+
+## [Section 16 - Acessando outros banco de dados][level02.outros-bancos]
+
+* 1 - PostgreSQL
+* 2 - SQLite
+* 3 - InMemory
+* 4 - Azure Cosmos DB
+
+
+[level02.outros-bancos]:howto/02-mastering/16-outros-bancos.md
