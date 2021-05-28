@@ -136,7 +136,12 @@ db.Database.Migrate();
 
 ## 8 - Desfazendo uma migração
 
-```c#
+```bash
+# Revertendo uma migração
+dotnet ef database update NomeMigracaoAnterior -p ./DominandoEFCore.AulaMigrations.csproj 
+
+# removendo migrações
+dotnet ef database remove -p ./DominandoEFCore.AulaMigrations.csproj 
 ```
 
 ## 9 - Migrações pendentes
@@ -149,3 +154,17 @@ db.Database.Migrate();
 ```c#
 ```
 
+## Resumo
+
+```bash
+
+# Adicionando um migração
+dotnet ef database add PrimeiraMigracao -p ./DominandoEFCore.AulaMigrations.csproj --context ApplicationContext
+
+# Revertendo uma migração
+dotnet ef database update NomeMigracaoAnterior -p ./DominandoEFCore.AulaMigrations.csproj 
+
+# removendo migrações
+dotnet ef database remove -p ./DominandoEFCore.AulaMigrations.csproj 
+
+```
