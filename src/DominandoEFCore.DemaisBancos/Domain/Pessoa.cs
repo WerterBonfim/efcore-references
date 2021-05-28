@@ -1,4 +1,4 @@
-namespace DominandoEFCore.BancoPostgresSql.Domain
+namespace DominandoEFCore.DemaisBancos.Domain
 {
     public class Pessoa
     {

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominandoEFCore.AulaMigrati
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "16-Acessando outros bancos", "16-Acessando outros bancos", "{F0C20785-96FC-4AAE-960E-9F6848843FE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominandoEFCore.BancoPostgresSql", "DominandoEFCore.BancoPostgresSql\DominandoEFCore.BancoPostgresSql.csproj", "{751651CD-0855-40F5-80E5-780C3B3351C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominandoEFCore.DemaisBancos", "DominandoEFCore.DemaisBancos\DominandoEFCore.DemaisBancos.csproj", "{751651CD-0855-40F5-80E5-780C3B3351C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

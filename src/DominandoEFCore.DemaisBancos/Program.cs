@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using DominandoEFCore.BancoPostgresSql.Data;
+using DominandoEFCore.DemaisBancos.Data;
 
-namespace DominandoEFCore.BancoPostgresSql
+namespace DominandoEFCore.DemaisBancos
 {
     public class Program
     {

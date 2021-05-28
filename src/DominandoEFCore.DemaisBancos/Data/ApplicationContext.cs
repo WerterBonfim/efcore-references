@@ -1,9 +1,9 @@
 using System;
-using DominandoEFCore.BancoPostgresSql.Domain;
+using DominandoEFCore.DemaisBancos.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace DominandoEFCore.BancoPostgresSql.Data
+namespace DominandoEFCore.DemaisBancos.Data
 {
     public class ApplicationContext : DbContext
     {
