@@ -166,7 +166,28 @@ foreach(var migracao in migracoes) {
 
 ## 10 - Engenharia Reversa
 
-```c#
+Para executar esse exemplo, a um arquivo teste-scaffold.sql na pasta scripts para exemplificar a engenharia reversa.
+
+```bash
+dotnet ef dbcontext scaffold \ 
+    # String de conexão, Deve ter o mesmo do banco de dados
+    'Server=localhost, 1433;Database=EFCoreScaffoldExemploContext;User Id=sa;Password=!123Senha;Application Name="Rider CursoEFCore";pooling=true;' \
+    # Provider do banco de dados
+    Microsoft.EntityFrameworkCore.SqlServer \
+    # Passe todas as tabelas 
+    --table Produtos \
+    --table Usuarios \
+    # Preservar todos os nomes. 
+    --use-database-names
+    # usa todos os data annotations possiveis
+    --data-annotations
+    # Diretório do contexto
+    --context-dir ./Context
+    # Diretório onde todo o modelo de dados sera criado
+    --output-dir ./Entidades
+    --namespace Meu.Namespace
+    --context-namespace Meu.NameSpace.Contexto
+    --project ./DominandoEFCore.AulaMigrations.csproj
 ```
 
 ## Resumo
@@ -184,5 +205,17 @@ dotnet ef database remove -p ./DominandoEFCore.AulaMigrations.csproj
 
 # Lista as migrações pendentes
 dotnet ef migrations list -p ./DominandoEFCore.csproj
+
+# Gerar script
+dotnet ef migrations script -p .\src\EFCore.csproj -o .\src\MeuScript.sql
+
+# Gerar script idemponent
+dotnet ef migrations script \
+    # Projeto
+    -p ./DominandoEFCore.AulaMigrations.csproj  \
+    # Onde sera gerado o script
+    -o ./Scripts/PrimeiraMigracaoIdempotente.sql \
+    # alias para o parametro --idempontent
+    -i
 
 ```
