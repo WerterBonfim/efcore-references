@@ -106,8 +106,33 @@ dotnet ef migrations script \
 
 ## 7 - Aplicando migração no banco de dados
 
-```c#
+Uma boa pratica para aplicar as migrações no banco de dados é 
+atraves da geração do script. Dessa forma podemos fornecer esse script
+para o DBA.
+
+Outra forma é através de um processo de DevOps onde o script é gerado via pipeline.
+
+Outras formas (shell e código) são indicadas somente para o ambiente de desenvolvimento.
+
+### Via shell
+
+```bash
+dotnet ef database update \
+    # Projeto
+    -p ./DominandoEFCore.AulaMigrations.csproj \
+    # Context
+    --context ApplicationContext
+
 ```
+
+### Via codigo
+
+```c#
+
+db.Database.Migrate();
+
+```
+
 
 ## 8 - Desfazendo uma migração
 
