@@ -11,10 +11,11 @@ namespace DominandoEFCore.DemaisBancos.Data
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string strConnectionPg = "Host=localhost;Database=DominandoEFCore;Username=postgres;Password=123";
+            //const string strConnectionPg = "Host=localhost;Database=DominandoEFCore;Username=postgres;Password=123";
 
             optionsBuilder
-                .UseNpgsql(strConnectionPg)
+                //.UseNpgsql(strConnectionPg)
+                .UseSqlite("DataSource=DominandoEFCore.db")
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging();
         }
