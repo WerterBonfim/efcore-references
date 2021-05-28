@@ -91,8 +91,17 @@ dotnet ef migrations script -p .\src\EFCore.csproj -o .\src\MeuScript.sql
 ```
 
 ## 6 - Gerando script SQL idempotente
+Gera scripts com validação, verificando se o objeto existe no banco
 
-```c#
+```bash
+
+dotnet ef migrations script \
+    # Projeto
+    -p ./DominandoEFCore.AulaMigrations.csproj  \
+    # Onde sera gerado o script
+    -o ./Scripts/PrimeiraMigracaoIdempotente.sql \
+    # alias para o parametro --idempontent
+    -i
 ```
 
 ## 7 - Aplicando migração no banco de dados
