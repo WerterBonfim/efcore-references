@@ -53,5 +53,28 @@ optionsBuilder
 
 ## 4 - Azure Cosmos DB
 
-```bash
+Nuget: Microsoft.EntityFrameworkCore.Cosmos
+
+```c#
+optionsBuilder    
+    .UseCosmos(
+        accountEndpoint: "https://localhost:8081",
+        accountKey: "",
+        databaseName: "DominandoEFCore"
+    )
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging();
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Pessoa>(c =>
+    {
+        c.HasKey(x => x.Id);
+        c.Property(x => x.Nome)
+            .HasMaxLength(60)
+            .IsUnicode(false);
+
+        c.ToContainer("Pessoas");
+    });
+}
 ```
