@@ -14,12 +14,18 @@
 
 ## 1 - Migrações do EF Core
 
-```c#
-```
+Faz o versionamento do seu banco de dados
 
 ## 2 - O que é necessário para criar uma migração?
 
-```c#
+Microsoft.EntityFrameworkCore.Desing -> Responsavel por gerar as migrações
+Microsoft.EntityFrameworkCore.Tools -> Superset de comandos para executar no console
+
+
+
+```bash
+# instalar globalmente
+dotnet tool install --global dotnet-ef --version 5.0.4
 ```
 
 ## 3 - Gerando uma migração
