@@ -15,7 +15,8 @@ namespace DominandoEFCore.DemaisBancos.Data
 
             optionsBuilder
                 //.UseNpgsql(strConnectionPg)
-                .UseSqlite("DataSource=DominandoEFCore.db")
+                //.UseSqlite("DataSource=DominandoEFCore.db")
+                .UseInMemoryDatabase(databaseName: "DominandoEFCore")
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging();
         }

@@ -8,17 +8,47 @@
 
 ## 1 - PostgreSQL
 
+Nuget:
+Npgsql.EntityFrameworkCore.PostgreSQL
+
 ```bash
+docker run --rm --name postgres-efcore -p 5423:5432 -e POSTGRES_PASSWORD=123 -d postgres
 ```
+
+```c#
+const string strConnectionPg = "Host=localhost;Database=DominandoEFCore;Username=postgres;Password=123";
+
+optionsBuilder
+    .UseNpgsql(strConnectionPg)    
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging();
+```
+
 
 ## 2 - SQLite
 
-```bash
+Nuget:
+Microsoft.EntityFrameworkCore.Sqlite
+
+```c#
+
+optionsBuilder    
+    .UseSqlite("DataSource=DominandoEFCore.db")
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging();
+
 ```
+
 
 ## 3 - InMemory
 
-```bash
+Nuget: Microsoft.EntityFrameworkCore.InMemory
+
+```c#
+optionsBuilder    
+    .UseInMemoryDatabase(databaseName: "DominandoEFCore")
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging();
 ```
 
 ## 4 - Azure Cosmos DB
