@@ -144,10 +144,25 @@ dotnet ef database update NomeMigracaoAnterior -p ./DominandoEFCore.AulaMigratio
 dotnet ef database remove -p ./DominandoEFCore.AulaMigrations.csproj 
 ```
 
-## 9 - Migrações pendentes
+## 9 - Migrações pendentes 
+
+```bash
+# Lista as migrações pendentes
+dotnet ef migrations list -p ./DominandoEFCore.csproj
+```
 
 ```c#
+// Verifica via código se existe migrações pendentes
+var exist = db.Database.GetPendingMigrations().Any();
+
+
+var migracoes = db.Database.GetPendingMigrations();
+foreach(var migracao in migracoes) {
+    Console.WriteLine(migracao)
+}
+
 ```
+
 
 ## 10 - Engenharia Reversa
 
@@ -166,5 +181,8 @@ dotnet ef database update NomeMigracaoAnterior -p ./DominandoEFCore.AulaMigratio
 
 # removendo migrações
 dotnet ef database remove -p ./DominandoEFCore.AulaMigrations.csproj 
+
+# Lista as migrações pendentes
+dotnet ef migrations list -p ./DominandoEFCore.csproj
 
 ```
