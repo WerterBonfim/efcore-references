@@ -14,9 +14,10 @@
 
 ## 1 - Arquitetura Multi-tenant
 
-```c#
-```
-
+Multitenant (Mult-inquilino) é um estilo de arquitetura de software que utilizava uma 
+única aplicação para diversos clientes(inquilinos). Esta arquitertura é muito utlizada no 
+conceito de cloud--computings (SaaS) onde aplicas-se uma estratégia de isolamento dos
+dados para cada inquilino.
 ## 2 - Single-tenant vs Multi-tenant
 
 ```c#
