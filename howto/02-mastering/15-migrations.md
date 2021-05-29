@@ -218,4 +218,12 @@ dotnet ef migrations script \
     # alias para o parametro --idempontent
     -i
 
+
+# Drop do banco de dados
+dotnet ef database drop -p ./arquivo.csproj
+# ou
+dotnet ef database drop --context ApplicationContext
+
+dotnet ef database update --context ApplicationContext --connection "stringDeConexao"
+
 ```
