@@ -246,3 +246,19 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.outros-bancos]:howto/02-mastering/16-outros-bancos.md
+
+
+## [Section 17 - Aplicação Multi-tenant][level02.multi-tenant]
+
+* 1 - Arquitetura Multi-tenant
+* 2 - Single-tenant vs Multi-tenant
+* 3 - Estratégias Multi-tenant
+* 4 - Criando o projeto
+* 5 - Instalando dependências
+* 6 - Preparando o ambiente
+* 7 - Estratégia 1 - Identificar na tabela
+* 8 - Estratégia 2 - Schema
+* 9 - Estratégia 3 - Banco de dados
+
+
+[level02.multi-tenant]:howto/02-mastering/17-multi-tenant.md
