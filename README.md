@@ -262,3 +262,18 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.multi-tenant]:howto/02-mastering/17-multi-tenant.md
+
+
+## [Section 18 - Padrão Repository & UoW][level02.repository]
+
+* 1 - O que é Repository Pattern?
+* 2 - O que é Unit-of-work?
+* 3 - DbContext já é um padrão Repository & Uow
+* 4 - Preparando o ambiente
+* 5 - Implementando UoW - Estratégia 1
+* 6 - Implementando UoW - Estragédia 2
+* 7 - Criando um Repositório Genérico
+* 8 - Consulta com Repositório Genérico 
+
+
+[level02.repository]:howto/02-mastering/18-repository-uow.md

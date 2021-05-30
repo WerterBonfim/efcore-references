@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "17-Multitenant", "17-Multit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominandoEFCore.Multitenant", "DominandoEFCore.Multitenant\DominandoEFCore.Multitenant.csproj", "{D135F515-F5D5-4DB4-8D13-006EE2215707}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "18-Repository", "18-Repository", "{FCE3C4A8-7B18-455A-B010-318163428E71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominandoEFCore.RepositoryPattern", "DominandoEFCore.RepositoryPattern\DominandoEFCore.RepositoryPattern.csproj", "{83B2E4E0-8113-470B-B716-2BDAEB0771DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,9 +94,22 @@ Global
 		{D135F515-F5D5-4DB4-8D13-006EE2215707}.Release|x64.Build.0 = Release|Any CPU
 		{D135F515-F5D5-4DB4-8D13-006EE2215707}.Release|x86.ActiveCfg = Release|Any CPU
 		{D135F515-F5D5-4DB4-8D13-006EE2215707}.Release|x86.Build.0 = Release|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Debug|x64.Build.0 = Debug|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Debug|x86.Build.0 = Debug|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Release|x64.ActiveCfg = Release|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Release|x64.Build.0 = Release|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{751651CD-0855-40F5-80E5-780C3B3351C6} = {F0C20785-96FC-4AAE-960E-9F6848843FE5}
 		{D135F515-F5D5-4DB4-8D13-006EE2215707} = {13374A94-766D-4937-93E3-A3EF4B9AB221}
+		{83B2E4E0-8113-470B-B716-2BDAEB0771DC} = {FCE3C4A8-7B18-455A-B010-318163428E71}
 	EndGlobalSection
 EndGlobal

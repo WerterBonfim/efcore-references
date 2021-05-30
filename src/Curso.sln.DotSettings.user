@@ -6,4 +6,5 @@
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=751651cd_002D0855_002D40f5_002D80e5_002D780c3b3351c6_0023DominandoEFCore_002EDemaisBancos/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=a9ad30d6_002D5c9b_002D40ba_002D85a5_002Deca8ab78659d_0023DominandoEFCore_002EAulaMigrations/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=b610fcb9_002D04c5_002D457e_002Db752_002D3e82279147a2_0023DominandoEFCore/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=ccbf3ea4_002D8b74_002D444d_002D953d_002Dfd17b8dcad33_0023CursoEFCore/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=ccbf3ea4_002D8b74_002D444d_002D953d_002Dfd17b8dcad33_0023CursoEFCore/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=d135f515_002Df5d5_002D4db4_002D8d13_002D006ee2215707_0023DominandoEFCore_002EMultitenant/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
