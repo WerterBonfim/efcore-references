@@ -277,3 +277,22 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.repository]:howto/02-mastering/18-repository-uow.md
+
+
+## [Section 19 - Dicas e truques][level02.dicas-truques]
+
+* 1 - Conhecer o método ToQueryString
+* 2 - Depuração com DebugView
+* 3 - Redefinir o estado do seu contexto
+* 4 - Include com consulta filtrada
+* 5 - SingleOrDefault vs FirstOrDefault
+* 6 - Tabela sem chave primária
+* 7 - Usando Views de seu banco de dados
+* 8 - Forçar o uso do VARCHAR
+* 9 - Aplicar conversão de nomeclatura
+* 10 - Operadores de agregação
+* 11 - Operadores de agregação no agrupamento
+* 12 - Contadores de eventos
+
+
+[level02.dicas-truques]:howto/02-mastering/19-dicas-e-truques.md
