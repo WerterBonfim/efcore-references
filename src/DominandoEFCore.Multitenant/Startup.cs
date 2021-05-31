@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DominandoEFCore.Multitenant.Data;
 using DominandoEFCore.Multitenant.Domain;
+using DominandoEFCore.Multitenant.Extensions;
 using DominandoEFCore.Multitenant.Middlewares;
 using DominandoEFCore.Multitenant.Provider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,15 +40,39 @@ namespace DominandoEFCore.Multitenant
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "DominandoEFCore.Multitenant", Version = "v1"});
             });
+            
+            
 
-            const string stringDeConexao =
-                @"Server=localhost, 1433;Database=EFCoreMultitenant;User Id=sa;Password=!123Senha;Application Name='CursoEFCore';pooling=true;";
+            // Estrategia 1
+            // const string stringDeConexao =
+            //     @"Server=localhost, 1433;Database=EFCoreMultitenant;User Id=sa;Password=!123Senha;Application Name='CursoEFCore';pooling=true;";
+            //
+            // services.AddDbContext<ApplicationContext>(p => p
+            //     .UseSqlServer(stringDeConexao)
+            //     .LogTo(Console.WriteLine)
+            //     .EnableSensitiveDataLogging()
+            // );
+            
+            //Estrategia 3 -- Banco de dados
+            services.AddHttpContextAccessor();
 
-            services.AddDbContext<ApplicationContext>(p => p
-                .UseSqlServer(stringDeConexao)
-                .LogTo(Console.WriteLine)
-                .EnableSensitiveDataLogging()
-            );
+            // Toda vez que requisição precisar de um context 
+            services.AddScoped<ApplicationContext>(provider =>
+            {
+                var optionBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+
+                var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
+                var tenantId = httpContext.GetTenantId();
+
+                var stringDeConexao = Configuration.GetConnectionString(tenantId);
+
+                optionBuilder
+                    .UseSqlServer(stringDeConexao)
+                    .LogTo(Console.WriteLine)
+                    .EnableSensitiveDataLogging();
+
+                return new ApplicationContext(optionBuilder.Options);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +93,7 @@ namespace DominandoEFCore.Multitenant
 
             app.UseAuthorization();
 
-            app.UseMiddleware<TenantMiddleware>();
+            // app.UseMiddleware<TenantMiddleware>();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

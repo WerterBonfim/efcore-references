@@ -2,7 +2,7 @@
 
 namespace DominandoEFCore.Multitenant.Migrations
 {
-    public partial class Tenant01 : Migration
+    public partial class Tenant : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,7 @@ namespace DominandoEFCore.Multitenant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TenantId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,32 +25,11 @@ namespace DominandoEFCore.Multitenant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TenantId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                });
-
-            migrationBuilder.InsertData(
-                table: "People",
-                columns: new[] { "Id", "Name", "TenantId" },
-                values: new object[,]
-                {
-                    { 1, "Person 1", "tenant-1" },
-                    { 2, "Person 2", "tenant-2" },
-                    { 3, "Person 3", "tenant-2" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "Description", "TenantId" },
-                values: new object[,]
-                {
-                    { 1, "Description 1", "tenant-1" },
-                    { 2, "Description 2", "tenant-2" },
-                    { 3, "Description 3", "tenant-2" }
                 });
         }
 

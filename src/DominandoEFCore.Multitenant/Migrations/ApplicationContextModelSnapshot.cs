@@ -28,32 +28,9 @@ namespace DominandoEFCore.Multitenant.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("People");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Person 1",
-                            TenantId = "tenant-1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Person 2",
-                            TenantId = "tenant-2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Person 3",
-                            TenantId = "tenant-2"
-                        });
                 });
 
             modelBuilder.Entity("DominandoEFCore.Multitenant.Domain.Product", b =>
@@ -66,32 +43,9 @@ namespace DominandoEFCore.Multitenant.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Description 1",
-                            TenantId = "tenant-1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Description 2",
-                            TenantId = "tenant-2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Description 3",
-                            TenantId = "tenant-2"
-                        });
                 });
 #pragma warning restore 612, 618
         }

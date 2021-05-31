@@ -99,5 +99,65 @@ Microsoft.EntityFrameworCore.Tools
 
 ## 9 - Estratégia 3 - Banco de dados
 
-```c#
+* Banco de dados: Vários bancos de dados acessados por uma unica aplicação.
 ```
+tenant-dev.seudominio.com
+tenant-a.seudominio.com
+tenant-b.seudominio.com
+
+seudominio.com/tenant-a/produtos
+seudominio.com/tenant-b/produtos
+```
+
+Eu adotei a seguinte estrategia para estudar esse exemplo:
+ * Defini o banco principal como tenant-dev para simplificar os testes antes de replicar para os tenants
+ * O tentant-dev é criado via Factory [Design-time DbContext Creation][design-time]
+
+```c#
+public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
+{
+    public ApplicationContext CreateDbContext(string[] args)
+    {
+        var builder = new DbContextOptionsBuilder<ApplicationContext>();
+        builder
+            .UseSqlServer("Server=localhost, 1433;Database=tentant-dev;User Id=sa;Password=!123Senha;Application Name=\"CursoEFCore\";pooling=true;")
+            .LogTo(Console.WriteLine)
+            .EnableSensitiveDataLogging();
+        
+        return new ApplicationContext(builder.Options);
+    }
+}
+```
+
+* Cada tenant é criado desta forma:
+
+```bash
+dotnet ef database update --context ApplicationContext --connection 'Server=localhost, 1433;Database=tenant-a;User Id=sa;Password=!123Senha;Application Name="CursoEFCore";pooling=true;'
+```
+
+
+```c#
+services.AddHttpContextAccessor();
+
+// Toda vez que requisição precisar de um context 
+services.AddScoped<ApplicationContext>(provider =>
+{
+    var optionBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+
+    var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
+    var tenantId = httpContext.GetTenantId();
+
+    var stringDeConexao = Configuration.GetConnectionString(tenantId);
+
+    optionBuilder
+        .UseSqlServer(stringDeConexao)
+        .LogTo(Console.WriteLine)
+        .EnableSensitiveDataLogging();
+
+    return new ApplicationContext(optionBuilder.Options);
+});
+```
+
+
+
+[design-time]:https://docs.microsoft.com/en-us/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli
