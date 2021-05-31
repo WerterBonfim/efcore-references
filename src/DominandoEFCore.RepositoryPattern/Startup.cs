@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using DominandoEFCore.RepositoryPattern.Data;
+using DominandoEFCore.RepositoryPattern.Data.Repositories;
+using DominandoEFCore.RepositoryPattern.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +32,16 @@ namespace DominandoEFCore.RepositoryPattern
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(p =>
+                {
+                    p.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    //p.JsonSerializerOptions.WriteIndented = true;
+                });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "DominandoEFCore.RepositoryPattern", Version = "v1"});
@@ -58,8 +71,35 @@ namespace DominandoEFCore.RepositoryPattern
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            CargaInicial(app);
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+
+        private void CargaInicial(IApplicationBuilder app)
+        {
+            using var db = app
+                .ApplicationServices
+                .CreateScope()
+                .ServiceProvider
+                .GetRequiredService<ApplicationContext>();
+
+            if (db.Database.EnsureCreated())
+            {
+                db.Departamentos.AddRange(Enumerable.Range(1, 10)
+                    .Select(p => new Departamento
+                    {
+                        Descricao = $"Departamento - {p}",
+                        Colaboradores = Enumerable.Range(1, 10)
+                            .Select(x => new Colaborador
+                            {
+                                Nome = $"Colaborador: {x}/{p}"
+                            }).ToList()
+                    }));
+
+                db.SaveChanges();
+            }
         }
     }
 }
