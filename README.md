@@ -25,6 +25,12 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 ```
 
+# Next steps
+* Translate to english
+* Migrate to version 5.0.6
+* Separate each section into Class Library
+* Another resources coming soon.
+
 # Introduction to Entity Framework Core section
 
 ## [Section 6 - Migrations][level01.migrations]
