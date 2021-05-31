@@ -5,6 +5,11 @@
   &lt;Assembly Path="/home/werter/.nuget/packages/microsoft.entityframeworkcore.relational/5.0.4/lib/netstandard2.1/Microsoft.EntityFrameworkCore.Relational.dll" /&gt;
   &lt;Assembly Path="/home/werter/dotnet/shared/Microsoft.NETCore.App/5.0.6/System.ComponentModel.Annotations.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/werter/.cache/JetBrains/Rider2021.1/resharper-host/temp/Rider/vAny/CoverageData/_Curso.1458477767/Snapshot/snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ba13ba9b_002Db8d9_002D4159_002D8716_002D41e60c32a91b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=5044a2cd_002Dde49_002D4626_002Dae69_002Dde9f4a43266d_0023DominandoEFCore_002ETestes/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=751651cd_002D0855_002D40f5_002D80e5_002D780c3b3351c6_0023DominandoEFCore_002EDemaisBancos/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=83b2e4e0_002D8113_002D470b_002Db716_002D2bdaeb0771dc_0023DominandoEFCore_002ERepositoryPattern/@EntryIndexedValue">True</s:Boolean>
 	
@@ -12,4 +17,5 @@
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=b610fcb9_002D04c5_002D457e_002Db752_002D3e82279147a2_0023DominandoEFCore/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=ccbf3ea4_002D8b74_002D444d_002D953d_002Dfd17b8dcad33_0023CursoEFCore/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=d135f515_002Df5d5_002D4db4_002D8d13_002D006ee2215707_0023DominandoEFCore_002EMultitenant/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=ec7826d8_002D6a4c_002D4a4b_002D9ad7_002Def4cdd7cdfc5_0023DominandoEFCore_002EDicasTruques/@EntryIndexedValue">True</s:Boolean>
 	</wpf:ResourceDictionary>

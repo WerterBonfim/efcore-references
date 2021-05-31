@@ -274,7 +274,36 @@ HAVING COUNT(*) > 1
 
 ## 12 - Contadores de eventos
 
+
+```c#
+private static void ContadorDeEventos()
+{
+    using var db = new ApplicationContext();
+
+    db.Database.EnsureDeleted();
+    db.Database.EnsureCreated();
+
+    Console.WriteLine($" PID: {System.Diagnostics.Process.GetCurrentProcess().Id}");
+
+    while (Console.ReadKey().Key != ConsoleKey.Escape)
+    {
+        var departamento = new Departamento
+        {
+            Descricao = "Departamento Contador de evento"
+        };
+
+        db.Departamentos.Add(departamento);
+        db.SaveChanges();
+
+
+        _ = db.Departamentos.Find(1);
+        _ = db.Departamentos.AsNoTracking().FirstOrDefault();
+    }
+}
 ```
+
+```bash
+dotnet tool install --global dotnet-counters 
 ```
 
 
