@@ -5,7 +5,7 @@
 * 3 - DbContext já é um padrão Repository & Uow
 * 4 - Preparando o ambiente
 * 5 - Implementando UoW - Estratégia 1
-* 6 - Implementando UoW - Estragédia 2
+* 6 - Implementando UoW - Estratégia 2
 * 7 - Criando um Repositório Genérico
 * 8 - Consulta com Repositório Genérico 
 
@@ -102,7 +102,7 @@ public IActionResult CriarDepartamento([FromBody]Departamento departamento)
 
 
 
-## 6 - Implementando UoW - Estragédia 2
+## 6 - Implementando UoW - Estratégia 2
 
 
 
