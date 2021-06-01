@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using DominandoEFCore.SobreescrevendoComportamentos.Data;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,21 @@ namespace DominandoEFCore.SobreescrevendoComportamentos
         {
             Console.WriteLine("Hello World!");
 
-            Exemplo();
+            //Exemplo();
+            ExemploDiagnostics();
+        }
+
+        private static void ExemploDiagnostics()
+        {
+            DiagnosticListener.AllListeners.Subscribe(new MyInterceptorListener());
+
+            using var db = new ApplicationContext();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+
+            _ = db.Departamentos
+                .Where(x => x.Id > 0)
+                .ToArray();
         }
 
         private static void Exemplo()

@@ -15,7 +15,8 @@ namespace DominandoEFCore.SobreescrevendoComportamentos.Data
                 //.LogTo(Console.WriteLine)
                 .UseSqlServer("Server=localhost, 1433;Database=DominandoEFCore;User Id=sa;Password=!123Senha;")
                 //.EnableSensitiveDataLogging()
-                .ReplaceService<IQuerySqlGeneratorFactory, MySqlServerQuerySqlGeneratorFactory>();
+                //.ReplaceService<IQuerySqlGeneratorFactory, MySqlServerQuerySqlGeneratorFactory>()
+                ;
         }
     }
 }

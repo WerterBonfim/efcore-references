@@ -302,3 +302,25 @@ docker container run --rm --name sql -d -p 1433:1433 sql-dev
 
 
 [level02.dicas-truques]:howto/02-mastering/19-dicas-e-truques.md
+
+## [Section 20 - Testes][level02.teste]
+
+
+* 1 - Criando testes usando o provider InMemory
+* 2 - Criando testes usando o provider SQLit
+
+
+[level02.teste]:howto/02-mastering/20-testes.md
+
+## [Section 21 - Sobreescrevendo comportamentos do EF Core][level02.comportamentos]
+
+
+[level02.comportamentos]:howto/02-mastering/21-sobreescrevendo-comportamentos-efcore.md
+
+## [Section 22 - Diagnostics][level02.diagnostics]
+
+* 1 - O que é Diagnostic Source?
+* 2 - Exemplo
+
+
+[level02.diagnostics]:howto/02-mastering/22-diagnostics.md
