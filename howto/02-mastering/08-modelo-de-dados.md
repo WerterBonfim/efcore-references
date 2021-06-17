@@ -594,4 +594,29 @@ modelBuilder.SharedTypeEntity<Dictionary<string, object>>("Configuracoes", b =>
 
 ```
 
+## 18 (extra) - Relationship 1 x N Optional
+
+
+```c#
+public class Order : Entity {
+    
+    // Nuablle define has a optional relationships
+    public Guid? VoucherId { get; get; }
+    public Voucher Voucher { get; set; }
+}
+
+public class Voucher : Entity {    
+    
+    public ICollection<Pedido> Pedidos { get; set; }
+}
+
+
+
+
+// voucher mapping
+builder.HasMany(c => c.Pedidos)
+    .WithOne(x => x.Voucher)
+    .HasForeignKey(x => x.VoucherId);
+```
+
 
